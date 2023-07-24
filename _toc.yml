@@ -1,0 +1,89 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+
+parts:
+- caption: Inleiding
+  chapters:  
+  - file: inleiding
+  - file: rdbms
+
+- caption: Sectie 1
+  chapters:
+  - file: sectie1/select
+    sections:
+    - file: sectie1/as
+    - file: sectie1/limit
+    - file: sectie1/sql-null
+    - file: sectie1/reken-operatoren
+  - file: sectie1/vragen1
+  - file: sectie1/opdrachten1
+    
+- caption: Sectie 2
+  chapters:
+  - file: sectie2/describe  
+  - file: sectie2/concat
+  - file: sectie2/distinct
+  - file: sectie2/where
+    sections: 
+    - file: sectie2/between-and
+    - file: sectie2/in
+    - file: sectie2/like
+    - file: sectie2/is-null
+    - file: sectie2/is-not-null
+  - file: sectie2/vragen2
+  - file: sectie2/opdrachten2
+  
+- caption: Sectie 3
+  chapters:
+  - file: sectie3/logische-operatoren
+  - file: sectie3/order-by
+  - file: sectie3/vragen3
+  - file: sectie3/opdrachten3
+
+- caption: Sectie 4
+  chapters:
+  - file: sectie4/tekstfuncties
+  - file: sectie4/rekenfuncties
+  - file: sectie4/datumfuncties-sqlite
+  - file: sectie4/datumfuncties-mysql  
+  - file: sectie4/groepsfuncties
+  - file: sectie4/vragen4
+  - file: sectie4/opdrachten4
+
+- caption: Sectie 5
+  chapters:
+  - file: sectie5/datatypes-sqlite
+  - file: sectie5/datatypes-mysql 
+  - file: sectie5/nesten
+  - file: sectie5/null-functies
+  - file: sectie5/case
+  - file: sectie5/vragen5
+  - file: sectie5/opdrachten5
+
+- caption: Sectie 6
+  chapters:
+  - file: sectie6/joins
+  - file: sectie6/vragen6
+  - file: sectie6/opdrachten6
+
+- caption: Sectie 7
+  chapters:
+  - file: sectie7/subquery
+  - file: sectie7/vragen7
+  - file: sectie7/opdrachten7
+
+- caption: Sectie 8
+  chapters:
+  - file: sectie8/groupby
+  - file: sectie8/vragen8
+  - file: sectie8/opdrachten8
+
+- caption: Over dit materiaal
+  chapters:
+  - file: sqlite-versie
+  - file: sqlite-vs-mysql
+  
+
