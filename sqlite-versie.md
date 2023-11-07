@@ -1,16 +1,24 @@
 # SQLite versie
 
-Deze SQL-cursus is onderdeel van het materiaal bij het keuzethema "Databases".
-Het oorspronkelijke open source (CC-BY) materiaal is ontwikkeld door Frans Peeters, in opdracht van SLO.
-Dit materiaal is te vinden via:
+Deze SQL-cursus is onderdeel van het SQL-verdiepingsmateriaal bij het keuzethema "Databases".
+Dit materiaal is beschikbaar onder de open source CC-BY licentie.
 
-* 
+De oorspronkelijke MySQL-versie van dit materiaal is ontwikkeld door Frans Peeters, in opdracht van SLO.
+Die versie is te vinden via https://sql.informaticavo.nl/index.html
 
 Deze versie is is omgezet van MySQL naar SQLite, in het Jupyter Book formaat, door Eelco Dijkstra.
 Bij deze versie horen Jupyter Notebooks (Basthon Notebooks) waarin de opdrachten uitgewerkt kunnen worden:
 je hebt daarbij geen afzonderlijk database-systeem nodig.
 
-Omdat de behandeling van datum/tijd-waarden in SQLite nogal verschilt van die in MySQL, is het oorspronkelijke MySQL hoofdstuk gehandhaafd, naast de aangepaste SQLite versie. 
+Voor twee onderdelen wijkt de SQLite-versie nogal af van de MySQL versie. 
+In die gevallen is de oorspronkelijke versie behouden naast de SQLite-versie.
+
+* behandeling van datum/tijd:
+    * {ref}`mysql-datumtijd`
+    * {ref}`sqlite-datumtijd`
+* datatypes:
+    * {ref}`mysql-datatypes`
+    * {ref}`sqlite-datatypes` 
 
 ## De voorbeeld-database
 

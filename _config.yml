@@ -3,6 +3,7 @@
 
 title: Inleiding SQL
 author: Frans Peeters
+copyright: 2022 SLO (beschikbaar onder creative commons licentie CC-BY)
 logo: logo.png
 
 # Force re-execution of notebooks on each build.
@@ -21,8 +22,8 @@ bibtex_bibfiles:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/executablebooks/jupyter-book  # Online location of your book
-  path_to_book: docs  # Optional path to your book, relative to the repository root
+  url: https://github.com/infvo/sqlbook1  # Online location of your book
+  # path_to_book: docs  # Optional path to your book, relative to the repository root
   branch: master  # Which branch of the repository should be used when creating links (optional)
 
 # Add GitHub buttons to your book
@@ -46,6 +47,6 @@ sphinx:
       assessment: "Vraag %s"
     graphviz_output_format: "svg"
     
-exclude_patterns: [rest.ipynb, ext/*, _build, Thumbs.db, .DS_Store, ".ipynb_checkpoints/*", "**.ipynb_checkpoints", old]
+exclude_patterns: [rest.ipynb, basthon, ext/*, _build, Thumbs.db, .DS_Store, ".ipynb_checkpoints/*", "**.ipynb_checkpoints", old]
   
 
