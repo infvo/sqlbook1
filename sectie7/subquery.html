@@ -1,0 +1,1454 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="nl" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Subquery &#8212; Inleiding SQL</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/assessment.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/assessment.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'sectie7/subquery';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Zoeken" href="../search.html" />
+    <link rel="next" title="Vragen Sectie 7" href="vragen7.html" />
+    <link rel="prev" title="Opdrachten 6" href="../sectie6/opdrachten6.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="nl"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welkom bij de inleidende cursus SQL
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Inleiding</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../inleiding.html">Inleiding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rdbms.html">RDBMS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 1</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sectie1/select.html">SELECT</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/as.html">AS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/limit.html">LIMIT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/sql-null.html">NULL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/reken-operatoren.html">Rekenkundige operatoren</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie1/vragen1.html">Vragen 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie1/opdrachten1.html">Opdrachten 1</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 2</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/describe.html">DESCRIBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/concat.html">CONCAT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/distinct.html">DISTINCT</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sectie2/where.html">WHERE</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/between-and.html">BETWEEN…AND</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/in.html">IN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/like.html">LIKE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/is-null.html">IS NULL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/is-not-null.html">IS NOT NULL</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/vragen2.html">Vragen 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/opdrachten2.html">Opdrachten 2</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 3</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/logische-operatoren.html">Logische operatoren</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/order-by.html">ORDER BY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/vragen3.html">Vragen Sectie 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/opdrachten3.html">Opdrachten sectie 3</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 4</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/tekstfuncties.html">Tekstfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/rekenfuncties.html">Rekenfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/datumfuncties-sqlite.html">Datumfuncties in SQLite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/datumfuncties-mysql.html">Datumfuncties in MySQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/groepsfuncties.html">Groepsfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/vragen4.html">Vragen Sectie 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/opdrachten4.html">Opdrachten sectie 4</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 5</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/datatypes-sqlite.html">Data types in SQLite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/datatypes-mysql.html">Data types in MySQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/nesten.html">Nesten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/null-functies.html">NULL functies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/case.html">Case</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/vragen5.html">Vragen sectie 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/opdrachten5.html">Opdrachten 5</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 6</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie6/joins.html">Joins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie6/vragen6.html">Vragen bij sectie 6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie6/opdrachten6.html">Opdrachten 6</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 7</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Subquery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vragen7.html">Vragen Sectie 7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opdrachten7.html">Opdrachten sectie 7</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 8</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie8/groupby.html">GROUP BY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie8/vragen8.html">Vragen sectie 8</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie8/opdrachten8.html">Opdrachten sectie 8</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Over dit materiaal</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sqlite-versie.html">SQLite versie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sqlite-vs-mysql.html">Verschillen SQLite en MySQL</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/infvo/sqlbook1" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Bronopslagplaats"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/infvo/sqlbook1/issues/new?title=Issue%20on%20page%20%2Fsectie7/subquery.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open een probleem"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download deze pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/sectie7/subquery.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download het bronbestand"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Afdrukken naar pdf"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Volledig scherm"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Zoeken" aria-label="Zoeken" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Subquery</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Inhoud </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-row">Single-row</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-row">Multiple-row</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exists">Exists</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#null">Null</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#groepsfuncties">Groepsfuncties</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="subquery">
+<h1>Subquery<a class="headerlink" href="#subquery" title="Permalink naar deze titel">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">LOAD</span><span class="w"> </span><span class="p">..</span><span class="o">/</span><span class="k">data</span><span class="o">/</span><span class="n">employees</span><span class="p">.</span><span class="n">db</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Met een subquery kun je eerst informatie opvragen die je nog niet weet. Op basis van die informatie kun je vervolgens een nieuwe query maken. Stel bijvoorbeeld dat je een overzicht wil maken van alle werknemers die in dienst zijn gekomen na Peter Vargas. Dan zul je eerst moeten weten wanneer Peter Vargas in dienst is gekomen!</p>
+<p>Eerst maar eens een heel foute manier!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">hire_date</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">&#39;1998-07-09&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>first_name</th>
+<th>last_name</th>
+<th>hire_date</th>
+</tr>
+<tr>
+<td>Diana</td>
+<td>Lorentz</td>
+<td>1999-02-07</td>
+</tr>
+<tr>
+<td>Kevin</td>
+<td>Mourgos</td>
+<td>1999-11-16</td>
+</tr>
+<tr>
+<td>Eleni</td>
+<td>Zlotkey</td>
+<td>2000-01-29</td>
+</tr>
+<tr>
+<td>Kimberely</td>
+<td>Grant</td>
+<td>1999-05-24</td>
+</tr>
+</table></div></div>
+</div>
+<p>Deze manier is erg verkeerd omdat je niet kunt weten dat de hire_date van Peter Vargas 1998-07-09 is. Dat heb je waarschijnlijk opgezocht in de papieren versie of in PHPMyAdmin in de tabel employees. En dat mag dus niet!</p>
+<p>Je moet eerst de hire_date van Peter Vargas ophalen met een query.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">hire_date</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Vargas&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>hire_date</th>
+</tr>
+<tr>
+<td>1998-07-09</td>
+</tr>
+</table></div></div>
+</div>
+<p>Dan neem je die query en die zet je tussen haakjes. Dit gedeelte noemen we de subquery of ook wel de inner query.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">hire_date</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Vargas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>En dan zetten we daar een andere query voor. Dit gedeelte is de main query of ook wel de outer query genoemd.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">hire_date</span><span class="w"> </span><span class="o">&gt;</span>
+<span class="w">    </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">hire_date</span>
+<span class="w">     </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w">     </span><span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Vargas&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>first_name</th>
+<th>last_name</th>
+<th>hire_date</th>
+</tr>
+<tr>
+<td>Diana</td>
+<td>Lorentz</td>
+<td>1999-02-07</td>
+</tr>
+<tr>
+<td>Kevin</td>
+<td>Mourgos</td>
+<td>1999-11-16</td>
+</tr>
+<tr>
+<td>Eleni</td>
+<td>Zlotkey</td>
+<td>2000-01-29</td>
+</tr>
+<tr>
+<td>Kimberely</td>
+<td>Grant</td>
+<td>1999-05-24</td>
+</tr>
+</table></div></div>
+</div>
+<p>Een ander voorbeeld: Wie werkt er op dezelfde afdeling als <code class="docutils literal notranslate"><span class="pre">Lex</span> <span class="pre">De</span> <span class="pre">Haan</span></code>?</p>
+<p>Eerst vraag je het <code class="docutils literal notranslate"><span class="pre">department_id</span></code> op van <code class="docutils literal notranslate"><span class="pre">De</span> <span class="pre">Haan</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;De Haan&#39;</span><span class="p">;</span><span class="w"> </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>department_id</th>
+</tr>
+<tr>
+<td>90</td>
+</tr>
+</table></div></div>
+</div>
+<p>Neem die query en zet die tussen haakjes.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span>
+<span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;De Haan&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>En dan zetten we daar een andere query voor.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span>
+<span class="w">     </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w">     </span><span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;De Haan&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+</tr>
+<tr>
+<td>King</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+</tr>
+<tr>
+<td>De Haan</td>
+</tr>
+</table></div></div>
+</div>
+<p>Wil je daar De Haan zelf niet bij? Dan zet je in de WHERE met != erbij dat de achternaam niet gelijk mag zijn aan De Haan.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;De Haan&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span>
+<span class="w">     </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w">     </span><span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;De Haan&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+</tr>
+<tr>
+<td>King</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+</tr>
+</table></div></div>
+</div>
+<p>Er zijn twee soorten subquery’s:</p>
+<ul class="simple">
+<li><p>single-row subquery’s</p></li>
+<li><p>multiple-row subquery’s</p></li>
+</ul>
+<section id="single-row">
+<h2>Single-row<a class="headerlink" href="#single-row" title="Permalink naar deze titel">#</a></h2>
+<ul class="simple">
+<li><p>Single-row subquery’s geven maar één rij terug.</p></li>
+<li><p>Ze gebruiken single-row vergelijkingsoperatoren:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">=</span>&#160; <span class="pre">&gt;</span>&#160; <span class="pre">&gt;=</span>&#160; <span class="pre">&lt;=</span>&#160; <span class="pre">&lt;&gt;</span> <span class="pre">!=</span></code></p></li>
+</ul>
+</li>
+<li><p>De subquery komt tussen haakjes.</p></li>
+<li><p>Voor de bovenste en de onderste query kun je verschillende tabellen gebruiken.</p></li>
+<li><p>Je mag maar één keer ORDER BY gebruiken en dat moet de laatste regel zijn van de bovenste query (main SELECT statement). Die komt dus helemaal onderaan.</p></li>
+</ul>
+<p>Wie werkt er allemaal op de afdeling Marketing? Dat zijn de personen met hetzelfde department_id, het department_id van de afdeling Marketing.</p>
+<p>Eerst haal je dus het department_id op van de afdeling Marketing. Dat staat in de tabel departments.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">departments</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">department_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Marketing&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>department_id</th>
+</tr>
+<tr>
+<td>20</td>
+</tr>
+</table></div></div>
+</div>
+<p>Zet die query tussen haakjes en zet er een andere query voor. Voor de duidelijkheid laten we de subquery inspringen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">job_id</span><span class="p">,</span><span class="w"> </span><span class="n">department_id</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span>
+<span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">departments</span>
+<span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">department_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Marketing&#39;</span><span class="p">)</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">job_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>job_id</th>
+<th>department_id</th>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>MK_MAN</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>MK_REP</td>
+<td>20</td>
+</tr>
+</table></div></div>
+</div>
+<p>Je kunt meerdere subquery’s gebruiken.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">job_id</span><span class="p">,</span><span class="w"> </span><span class="n">salary</span><span class="p">,</span><span class="w"> </span><span class="n">department_id</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">job_id</span><span class="w"> </span><span class="o">=</span>
+<span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">job_id</span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">employee_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">141</span><span class="p">)</span>
+<span class="k">AND</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span>
+<span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">departments</span>
+<span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">location_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1500</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>job_id</th>
+<th>salary</th>
+<th>department_id</th>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>ST_CLERK</td>
+<td>3500</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>ST_CLERK</td>
+<td>3100</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>ST_CLERK</td>
+<td>2600</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>ST_CLERK</td>
+<td>2500</td>
+<td>50</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+<section id="multiple-row">
+<h2>Multiple-row<a class="headerlink" href="#multiple-row" title="Permalink naar deze titel">#</a></h2>
+<ul class="simple">
+<li><p>Multiple-row subquery’s kunnen meer dan één resultaat opleveren. Dan kun je de single-row operators (zoals bijvoorbeeld het = teken) niet gebruiken.</p></li>
+<li><p>Ze gebruiken multiple-row vergelijkingsoperatoren:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">IN</span>&#160; <span class="pre">ANY</span>&#160; <span class="pre">ALL</span></code></p></li>
+</ul>
+</li>
+<li><p>De NOT operators kan bij alle drie gebruikt worden.</p></li>
+</ul>
+<p><strong>Naar IN zullen we kijken maar ANY en ALL laten we buiten beschouwing in deze cursus.</strong></p>
+<p>Met de IN operator in de outer query kun je alle rijen selecteren die voorkomen in een <em>lijstje van waarden</em> dat gemaakt is met de inner query.</p>
+<p>Stel dat we alle namen van werknemers willen die in hetzelfde jaar zijn aangenomen als werknemers van afdeling 90. Eerst moeten we een subquery (inner query) maken om een lijstje op te halen met de jaren waarin werknemers van afdeling 90 zijn aangenomen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">90</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>strftime('%Y', hire_date)</th>
+</tr>
+<tr>
+<td>1987</td>
+</tr>
+<tr>
+<td>1989</td>
+</tr>
+<tr>
+<td>1993</td>
+</tr>
+</table></div></div>
+</div>
+<p>Die subquery zetten we tussen haakjes en daar zetten we de outer query boven.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">year</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">year</span><span class="w"> </span><span class="k">IN</span>
+<span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">)</span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">90</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>year</th>
+</tr>
+<tr>
+<td>King</td>
+<td>1987</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>1989</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>1993</td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>1987</td>
+</tr>
+</table></div></div>
+</div>
+<p>Multiple-row subquery’s zijn altijd veiliger dan single-row subquery’s. Vergelijk deze twee query’s met elkaar.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">job_id</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">job_id</span><span class="w"> </span><span class="k">IN</span>
+<span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">JOB_ID</span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Ernst&#39;</span><span class="w"> </span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>first_name</th>
+<th>last_name</th>
+<th>job_id</th>
+</tr>
+<tr>
+<td>Alexander</td>
+<td>Hunold</td>
+<td>IT_PROG</td>
+</tr>
+<tr>
+<td>Bruce</td>
+<td>Ernst</td>
+<td>IT_PROG</td>
+</tr>
+<tr>
+<td>Diana</td>
+<td>Lorentz</td>
+<td>IT_PROG</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">job_id</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">job_id</span><span class="w"> </span><span class="o">=</span>
+<span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">JOB_ID</span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Ernst&#39;</span><span class="w"> </span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>first_name</th>
+<th>last_name</th>
+<th>job_id</th>
+</tr>
+<tr>
+<td>Alexander</td>
+<td>Hunold</td>
+<td>IT_PROG</td>
+</tr>
+<tr>
+<td>Bruce</td>
+<td>Ernst</td>
+<td>IT_PROG</td>
+</tr>
+<tr>
+<td>Diana</td>
+<td>Lorentz</td>
+<td>IT_PROG</td>
+</tr>
+</table></div></div>
+</div>
+<p>Ze hebben beide hetzelfde resultaat.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Waar je = zou gebruiken, werkt IN dus ook altijd. Als je twijfelt: gebruik IN in plaats van =.</p>
+</div>
+</section>
+<section id="exists">
+<h2>Exists<a class="headerlink" href="#exists" title="Permalink naar deze titel">#</a></h2>
+<p>EXISTS en NOT EXISTS kunnen worden gebruikt voor subquery’s.</p>
+<p>Stel dat je wil onderzoeken welke department_id’s in de tabel departments staan en ook bestaan (exist) in de tabel employees.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">departments</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">EXISTS</span>
+<span class="w">   </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">departments</span><span class="p">.</span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">employees</span><span class="p">.</span><span class="n">department_id</span><span class="p">)</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>department_id</th>
+</tr>
+<tr>
+<td>10</td>
+</tr>
+<tr>
+<td>20</td>
+</tr>
+<tr>
+<td>50</td>
+</tr>
+<tr>
+<td>60</td>
+</tr>
+<tr>
+<td>80</td>
+</tr>
+<tr>
+<td>90</td>
+</tr>
+<tr>
+<td>110</td>
+</tr>
+</table></div></div>
+</div>
+<p>Of juist het tegenovergestelde. Welk department_id komt wel voor in departments maar bestaat niet (not exists) niet in employees?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">departments</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span>
+<span class="w">   </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">departments</span><span class="p">.</span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">employees</span><span class="p">.</span><span class="n">department_id</span><span class="p">)</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>department_id</th>
+</tr>
+<tr>
+<td>190</td>
+</tr>
+</table></div></div>
+</div>
+<p>Welke werknemers zijn geen manager?</p>
+<p>Dat kun je onderzoeken met een SELF JOIN en een SUBQUERY. Bij een SELF JOIN gebruik je dezelfde tabel twee maal met verschillende aliassen. In dit voorbeeld wordt de tabel employees één keer gebruikt als emp en één keer als mgr.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">not_a_manager</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="n">e</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span>
+<span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="n">m</span>
+<span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">manager_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">employee_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>not_a_manager</th>
+</tr>
+<tr>
+<td>Ernst</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+</tr>
+<tr>
+<td>Rajs</td>
+</tr>
+<tr>
+<td>Davies</td>
+</tr>
+<tr>
+<td>Matos</td>
+</tr>
+<tr>
+<td>Vargas</td>
+</tr>
+<tr>
+<td>Abel</td>
+</tr>
+<tr>
+<td>Taylor</td>
+</tr>
+<tr>
+<td>Grant</td>
+</tr>
+<tr>
+<td>Whalen</td>
+</tr>
+<tr>
+<td>Fay</td>
+</tr>
+<tr>
+<td>Gietz</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+<section id="null">
+<h2>Null<a class="headerlink" href="#null" title="Permalink naar deze titel">#</a></h2>
+<p>Het kan zijn dat bij een single-row subquery de subquery als resultaat NULL oplevert. Zo heeft Grant bijvoorbeeld geen department_id.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Grant&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>department_id</th>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table></div></div>
+</div>
+<p>En we stellen de vraag wie er op dezelfde afdeling werken als Grant.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Grant&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+</tr>
+</table></div></div>
+</div>
+<p>Dan krijg je een leeg resultaat terug: geen enkele rij dus.</p>
+<div class="admonition-leeg-resultaat-in-mysql admonition">
+<p class="admonition-title">leeg resultaat in MySQL</p>
+<p>MySQL geef in dit geval de melding:</p>
+<p><img alt="" src="../_images/clip0190.png" /></p>
+</div>
+<p>Een vergelijking met NULL levert altijd FALSE op. En als een conditie FALSE is, worden de rijen uitgesloten van het query resultaat.</p>
+<p>Als bij een multiple-row query één van de waarden van de subquery NULL is, dan worden enkel de waarden die niet NULL zijn gebruikt.</p>
+<p>Welke werknemers zijn er allemaal manager? Dat zijn de manager_id’s die voorkomen in de lijst van employee_id’s.</p>
+<p>Eerst halen we alle manager_id’s op. Daar zit één NULL waarde bij. King is de grootste baas en hij heeft geen manager.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">manager_id</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>manager_id</th>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td>100</td>
+</tr>
+<tr>
+<td>102</td>
+</tr>
+<tr>
+<td>103</td>
+</tr>
+<tr>
+<td>124</td>
+</tr>
+<tr>
+<td>149</td>
+</tr>
+<tr>
+<td>101</td>
+</tr>
+<tr>
+<td>201</td>
+</tr>
+<tr>
+<td>205</td>
+</tr>
+</table></div></div>
+</div>
+<p>Die subquery (inner query) zetten we tussen haakjes en daar zetten we de outer query boven.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">employee_id</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">employee_id</span><span class="w"> </span><span class="k">IN</span>
+<span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">manager_id</span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>employee_id</th>
+</tr>
+<tr>
+<td>King</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>101</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>102</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>103</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>124</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>149</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>201</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>205</td>
+</tr>
+</table></div></div>
+</div>
+<p>Het is altijd oppassen met NULLS in de subquery bij het gebruik van IN of NOT IN. Als je niet zeker weet of een NULL voor gaat komen in de subquery en er misschien een verkeerd resultaat uit volgt, kun je beter die NULL uitsluiten met een WHERE.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">employee_id</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">employee_id</span><span class="w"> </span><span class="k">IN</span>
+<span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">manager_id</span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">manager_id</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>employee_id</th>
+</tr>
+<tr>
+<td>King</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>101</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>102</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>103</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>124</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>149</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>201</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>205</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+<section id="groepsfuncties">
+<h2>Groepsfuncties<a class="headerlink" href="#groepsfuncties" title="Permalink naar deze titel">#</a></h2>
+<p>Het is mogelijk groepsfuncties te gebruiken in subquery’s, zoals MIN, MAX, SUM en AVG.</p>
+<p>Wie verdient er minder dan het gemiddelde salaris?</p>
+<p>Eerst maak je de query voor het gemiddelde salaris met de groepsfunctie AVG.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>AVG(salary)</th>
+</tr>
+<tr>
+<td>8775.0</td>
+</tr>
+</table></div></div>
+</div>
+<p>Dat zet je tussen haakjes en daar zet je een andere query voor.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">salary</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">salary</span><span class="w"> </span><span class="o">&lt;</span>
+<span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>salary</th>
+</tr>
+<tr>
+<td>Ernst</td>
+<td>6000</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+<td>4200</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>5800</td>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>3500</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>3100</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>2600</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>2500</td>
+</tr>
+<tr>
+<td>Taylor</td>
+<td>8600</td>
+</tr>
+<tr>
+<td>Grant</td>
+<td>7000</td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>4400</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>6000</td>
+</tr>
+<tr>
+<td>Gietz</td>
+<td>8300</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "xsqlite"
+        },
+        kernelOptions: {
+            name: "xsqlite",
+            path: "./sectie7"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'xsqlite'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../sectie6/opdrachten6.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">vorige</p>
+        <p class="prev-next-title">Opdrachten 6</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="vragen7.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">volgende</p>
+        <p class="prev-next-title">Vragen Sectie 7</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Inhoud
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-row">Single-row</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-row">Multiple-row</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exists">Exists</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#null">Null</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#groepsfuncties">Groepsfuncties</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Door Frans Peeters
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022 SLO (beschikbaar onder creative commons licentie CC-BY).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

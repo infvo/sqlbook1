@@ -1,0 +1,999 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="nl" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Tekstfuncties &#8212; Inleiding SQL</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/assessment.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/assessment.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'sectie4/tekstfuncties';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Zoeken" href="../search.html" />
+    <link rel="next" title="Rekenfuncties" href="rekenfuncties.html" />
+    <link rel="prev" title="Opdrachten sectie 3" href="../sectie3/opdrachten3.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="nl"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welkom bij de inleidende cursus SQL
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Inleiding</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../inleiding.html">Inleiding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rdbms.html">RDBMS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 1</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sectie1/select.html">SELECT</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/as.html">AS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/limit.html">LIMIT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/sql-null.html">NULL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/reken-operatoren.html">Rekenkundige operatoren</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie1/vragen1.html">Vragen 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie1/opdrachten1.html">Opdrachten 1</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 2</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/describe.html">DESCRIBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/concat.html">CONCAT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/distinct.html">DISTINCT</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sectie2/where.html">WHERE</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/between-and.html">BETWEEN…AND</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/in.html">IN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/like.html">LIKE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/is-null.html">IS NULL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/is-not-null.html">IS NOT NULL</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/vragen2.html">Vragen 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/opdrachten2.html">Opdrachten 2</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 3</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/logische-operatoren.html">Logische operatoren</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/order-by.html">ORDER BY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/vragen3.html">Vragen Sectie 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/opdrachten3.html">Opdrachten sectie 3</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 4</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tekstfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rekenfuncties.html">Rekenfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datumfuncties-sqlite.html">Datumfuncties in SQLite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datumfuncties-mysql.html">Datumfuncties in MySQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="groepsfuncties.html">Groepsfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vragen4.html">Vragen Sectie 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opdrachten4.html">Opdrachten sectie 4</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 5</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/datatypes-sqlite.html">Data types in SQLite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/datatypes-mysql.html">Data types in MySQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/nesten.html">Nesten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/null-functies.html">NULL functies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/case.html">Case</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/vragen5.html">Vragen sectie 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/opdrachten5.html">Opdrachten 5</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 6</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie6/joins.html">Joins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie6/vragen6.html">Vragen bij sectie 6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie6/opdrachten6.html">Opdrachten 6</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 7</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie7/subquery.html">Subquery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie7/vragen7.html">Vragen Sectie 7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie7/opdrachten7.html">Opdrachten sectie 7</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 8</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie8/groupby.html">GROUP BY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie8/vragen8.html">Vragen sectie 8</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie8/opdrachten8.html">Opdrachten sectie 8</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Over dit materiaal</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sqlite-versie.html">SQLite versie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sqlite-vs-mysql.html">Verschillen SQLite en MySQL</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/infvo/sqlbook1" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Bronopslagplaats"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/infvo/sqlbook1/issues/new?title=Issue%20on%20page%20%2Fsectie4/tekstfuncties.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open een probleem"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download deze pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/sectie4/tekstfuncties.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download het bronbestand"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Afdrukken naar pdf"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Volledig scherm"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Zoeken" aria-label="Zoeken" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Tekstfuncties</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Inhoud </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lower">LOWER</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upper">UPPER</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#concat">CONCAT</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#replace">REPLACE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#substr">SUBSTR</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tekstfuncties">
+<h1>Tekstfuncties<a class="headerlink" href="#tekstfuncties" title="Permalink naar deze titel">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">LOAD</span><span class="w"> </span><span class="p">..</span><span class="o">/</span><span class="k">data</span><span class="o">/</span><span class="n">employees</span><span class="p">.</span><span class="n">db</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Tekstfuncties geven per rij precies een rij terug. Als je een functie los laat op twintig rijen krijg je dus precies twintig resultaten terug. Er zijn twee soorten tekstfuncties:</p>
+<ul class="simple">
+<li><p>functies die omzetten van hoofdletters naar kleine letters of andersom (case-manipulation), bijvoorbeeld</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">LOWER</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UPPER</span></code></p></li>
+</ul>
+</li>
+<li><p>functies die andere dingen kunnen doen met tekens (character-manipulation), bijvoorbeeld</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">CONCAT</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">REPLACE</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SUBSTR</span></code></p></li>
+</ul>
+</li>
+</ul>
+<p>Tekstfuncties kun je gebruiken op de <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>, <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> en <code class="docutils literal notranslate"><span class="pre">ORDER</span> <span class="pre">BY</span></code> regel.</p>
+<p>Een uitgebreid overzicht van tekstfuncties is te vinden bij de SQL cursus van W3 Schools bij SQL Server String Functions</p>
+<p><a class="reference external" href="https://www.w3schools.com/sql/sql_ref_mysql.asp">https://www.w3schools.com/sql/sql_ref_mysql.asp</a></p>
+<section id="lower">
+<h2>LOWER<a class="headerlink" href="#lower" title="Permalink naar deze titel">#</a></h2>
+<p>Met <code class="docutils literal notranslate"><span class="pre">LOWER</span></code> zet je alles in kleine letters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="k">LOWER</span><span class="p">(</span><span class="n">first_name</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>LOWER(first_name)</th>
+</tr>
+<tr>
+<td>steven</td>
+</tr>
+<tr>
+<td>neena</td>
+</tr>
+<tr>
+<td>lex</td>
+</tr>
+<tr>
+<td>alexander</td>
+</tr>
+<tr>
+<td>bruce</td>
+</tr>
+<tr>
+<td>diana</td>
+</tr>
+<tr>
+<td>kevin</td>
+</tr>
+<tr>
+<td>trenna</td>
+</tr>
+<tr>
+<td>curtis</td>
+</tr>
+<tr>
+<td>randall</td>
+</tr>
+<tr>
+<td>peter</td>
+</tr>
+<tr>
+<td>eleni</td>
+</tr>
+<tr>
+<td>ellen</td>
+</tr>
+<tr>
+<td>jonathon</td>
+</tr>
+<tr>
+<td>kimberely</td>
+</tr>
+<tr>
+<td>jennifer</td>
+</tr>
+<tr>
+<td>michael</td>
+</tr>
+<tr>
+<td>pat</td>
+</tr>
+<tr>
+<td>shelley</td>
+</tr>
+<tr>
+<td>william</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+<section id="upper">
+<h2>UPPER<a class="headerlink" href="#upper" title="Permalink naar deze titel">#</a></h2>
+<p>Met <code class="docutils literal notranslate"><span class="pre">UPPER</span></code> zet je alles in hoofdletters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="k">UPPER</span><span class="p">(</span><span class="n">first_name</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>UPPER(first_name)</th>
+</tr>
+<tr>
+<td>STEVEN</td>
+</tr>
+<tr>
+<td>NEENA</td>
+</tr>
+<tr>
+<td>LEX</td>
+</tr>
+<tr>
+<td>ALEXANDER</td>
+</tr>
+<tr>
+<td>BRUCE</td>
+</tr>
+<tr>
+<td>DIANA</td>
+</tr>
+<tr>
+<td>KEVIN</td>
+</tr>
+<tr>
+<td>TRENNA</td>
+</tr>
+<tr>
+<td>CURTIS</td>
+</tr>
+<tr>
+<td>RANDALL</td>
+</tr>
+<tr>
+<td>PETER</td>
+</tr>
+<tr>
+<td>ELENI</td>
+</tr>
+<tr>
+<td>ELLEN</td>
+</tr>
+<tr>
+<td>JONATHON</td>
+</tr>
+<tr>
+<td>KIMBERELY</td>
+</tr>
+<tr>
+<td>JENNIFER</td>
+</tr>
+<tr>
+<td>MICHAEL</td>
+</tr>
+<tr>
+<td>PAT</td>
+</tr>
+<tr>
+<td>SHELLEY</td>
+</tr>
+<tr>
+<td>WILLIAM</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+<section id="concat">
+<h2>CONCAT<a class="headerlink" href="#concat" title="Permalink naar deze titel">#</a></h2>
+<p>Met <code class="docutils literal notranslate"><span class="pre">CONCAT</span></code> plak je kolommen aan elkaar. Zie ook Sectie 2 voor meer uitleg over <code class="docutils literal notranslate"><span class="pre">CONCAT</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="p">(</span><span class="n">first_name</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">last_name</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>(first_name || last_name)</th>
+</tr>
+<tr>
+<td>StevenKing</td>
+</tr>
+<tr>
+<td>NeenaKochhar</td>
+</tr>
+<tr>
+<td>LexDe Haan</td>
+</tr>
+<tr>
+<td>AlexanderHunold</td>
+</tr>
+<tr>
+<td>BruceErnst</td>
+</tr>
+<tr>
+<td>DianaLorentz</td>
+</tr>
+<tr>
+<td>KevinMourgos</td>
+</tr>
+<tr>
+<td>TrennaRajs</td>
+</tr>
+<tr>
+<td>CurtisDavies</td>
+</tr>
+<tr>
+<td>RandallMatos</td>
+</tr>
+<tr>
+<td>PeterVargas</td>
+</tr>
+<tr>
+<td>EleniZlotkey</td>
+</tr>
+<tr>
+<td>EllenAbel</td>
+</tr>
+<tr>
+<td>JonathonTaylor</td>
+</tr>
+<tr>
+<td>KimberelyGrant</td>
+</tr>
+<tr>
+<td>JenniferWhalen</td>
+</tr>
+<tr>
+<td>MichaelHartstein</td>
+</tr>
+<tr>
+<td>PatFay</td>
+</tr>
+<tr>
+<td>ShelleyHiggins</td>
+</tr>
+<tr>
+<td>WilliamGietz</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+<section id="replace">
+<h2>REPLACE<a class="headerlink" href="#replace" title="Permalink naar deze titel">#</a></h2>
+<p>Met <code class="docutils literal notranslate"><span class="pre">REPLACE</span></code> vervang je karakters in een string. In onderstaand voorbeeld worden spaties weggehaald in de achternaam. Dat geldt in dit geval enkel voor <code class="docutils literal notranslate"><span class="pre">De</span> <span class="pre">Haan</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="k">REPLACE</span><span class="p">(</span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>REPLACE(last_name, ' ', '')</th>
+</tr>
+<tr>
+<td>King</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+</tr>
+<tr>
+<td>DeHaan</td>
+</tr>
+<tr>
+<td>Hunold</td>
+</tr>
+<tr>
+<td>Ernst</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+</tr>
+<tr>
+<td>Rajs</td>
+</tr>
+<tr>
+<td>Davies</td>
+</tr>
+<tr>
+<td>Matos</td>
+</tr>
+<tr>
+<td>Vargas</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+</tr>
+<tr>
+<td>Abel</td>
+</tr>
+<tr>
+<td>Taylor</td>
+</tr>
+<tr>
+<td>Grant</td>
+</tr>
+<tr>
+<td>Whalen</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+</tr>
+<tr>
+<td>Fay</td>
+</tr>
+<tr>
+<td>Higgins</td>
+</tr>
+<tr>
+<td>Gietz</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+<section id="substr">
+<h2>SUBSTR<a class="headerlink" href="#substr" title="Permalink naar deze titel">#</a></h2>
+<p>Met <code class="docutils literal notranslate"><span class="pre">SUBSTR</span></code> kun je een gedeelte van een string laten zien vanaf een bepaalde positie, met eventueel een bepaalde lengte of default tot aan het einde van de string. Met onderstaande query worden de eerste drie karakters van de achternaam getoond.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">SUBSTR</span><span class="p">(</span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>SUBSTR(last_name, 1, 3)</th>
+</tr>
+<tr>
+<td>Kin</td>
+</tr>
+<tr>
+<td>Koc</td>
+</tr>
+<tr>
+<td>De </td>
+</tr>
+<tr>
+<td>Hun</td>
+</tr>
+<tr>
+<td>Ern</td>
+</tr>
+<tr>
+<td>Lor</td>
+</tr>
+<tr>
+<td>Mou</td>
+</tr>
+<tr>
+<td>Raj</td>
+</tr>
+<tr>
+<td>Dav</td>
+</tr>
+<tr>
+<td>Mat</td>
+</tr>
+<tr>
+<td>Var</td>
+</tr>
+<tr>
+<td>Zlo</td>
+</tr>
+<tr>
+<td>Abe</td>
+</tr>
+<tr>
+<td>Tay</td>
+</tr>
+<tr>
+<td>Gra</td>
+</tr>
+<tr>
+<td>Wha</td>
+</tr>
+<tr>
+<td>Har</td>
+</tr>
+<tr>
+<td>Fay</td>
+</tr>
+<tr>
+<td>Hig</td>
+</tr>
+<tr>
+<td>Gie</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "xsqlite"
+        },
+        kernelOptions: {
+            name: "xsqlite",
+            path: "./sectie4"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'xsqlite'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../sectie3/opdrachten3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">vorige</p>
+        <p class="prev-next-title">Opdrachten sectie 3</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="rekenfuncties.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">volgende</p>
+        <p class="prev-next-title">Rekenfuncties</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Inhoud
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lower">LOWER</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upper">UPPER</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#concat">CONCAT</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#replace">REPLACE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#substr">SUBSTR</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Door Frans Peeters
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022 SLO (beschikbaar onder creative commons licentie CC-BY).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

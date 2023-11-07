@@ -1,0 +1,1369 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="nl" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>GROUP BY &#8212; Inleiding SQL</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/exercise.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/assessment.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/assessment.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'groupby';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Zoeken" href="search.html" />
+    <link rel="next" title="Vragen sectie 8" href="vragen8.html" />
+    <link rel="prev" title="Opdrachten sectie 7" href="opdrachten7.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="nl"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welkom bij de inleidende cursus SQL
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Inleiding</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="inleiding.html">Inleiding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rdbms.html">RDBMS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 1</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="sectie1/select.html">SELECT</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sectie1/as.html">AS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sectie1/limit.html">LIMIT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sectie1/sql-null.html">NULL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sectie1/reken-operatoren.html">Rekenkundige operatoren</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sectie1/vragen1.html">Vragen 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sectie1/opdrachten1.html">Opdrachten 1</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 2</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="concat.html">CONCAT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="schema.html">Schema</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distinct.html">DISTINCT</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="where.html">WHERE</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="between-and.html">BETWEEN…AND</a></li>
+<li class="toctree-l2"><a class="reference internal" href="in.html">IN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="like.html">LIKE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="is-null.html">IS NULL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="is-not-null.html">IS NOT NULL</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vragen2.html">Vragen 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opdrachten2.html">Opdrachten 2</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 3</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="logische-operatoren.html">Logische operatoren</a></li>
+<li class="toctree-l1"><a class="reference internal" href="order-by.html">ORDER BY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vragen3.html">Vragen Sectie 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opdrachten3.html">Opdrachten sectie 3</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 4</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tekstfuncties.html">Tekstfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rekenfuncties.html">Rekenfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datumfuncties.html">Datumfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="groepsfuncties.html">Groepsfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vragen4.html">Vragen Sectie 4</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 5</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="sectie5/datatypes.html">Data types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sectie5/convert.html">CONVERT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sectie5/nesten.html">Nesten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sectie5/null-functies.html">NULL functies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sectie5/case.html">Case</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sectie5/vragen5.html">Vragen sectie 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sectie5/opdrachten5.html">Opdrachten 5</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 6</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="joins.html">Joins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vragen6.html">Vragen bij sectie 6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opdrachten6.html">Opdrachten 6</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 7</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="subquery.html">Subquery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vragen7.html">Vragen Sectie 7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opdrachten7.html">Opdrachten sectie 7</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 8</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">GROUP BY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vragen8.html">Vragen sectie 8</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opdrachten8.html">Opdrachten sectie 8</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Bronopslagplaats"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fgroupby.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open een probleem"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download deze pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/groupby.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download het bronbestand"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Afdrukken naar pdf"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Volledig scherm"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Zoeken" aria-label="Zoeken" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>GROUP BY</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Inhoud </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#null-waarden">NULL waarden</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where">WHERE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#order-by">ORDER BY</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#having">HAVING</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="group-by">
+<h1>GROUP BY<a class="headerlink" href="#group-by" title="Permalink naar deze titel">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">LOAD</span><span class="w"> </span><span class="k">data</span><span class="o">/</span><span class="n">example</span><span class="p">.</span><span class="n">db</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Tot nu toe hebben we uitsluitend query’s gezien waarbij informatie werd verwacht met betrekking tot individuele rijen uit de tabellen. Het komt echter regelmatig voor dat we geïnteresseerd zijn in geaggregeerde informatie. Hiermee wordt bedoeld informatie die niet meer is gebaseerd op afzonderlijke rijen, maar op verzamelingen van rijen. Rijen die op een bepaalde manier bij elkaar horen.</p>
+<p>Stel bijvoorbeeld dat we een overzicht willen van het gemiddelde salaris (salary) van elke afdeling (department_id). Bij dit soort query’s hebben we de GROUP BY component van het SELECT commando nodig. Voor het gemak hebben we de gemiddelde salarissen alvast afgerond.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">salary</span><span class="p">))</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>ROUND(AVG(salary))</th>
+</tr>
+<tr>
+<td>7000.0</td>
+</tr>
+<tr>
+<td>4400.0</td>
+</tr>
+<tr>
+<td>9500.0</td>
+</tr>
+<tr>
+<td>3500.0</td>
+</tr>
+<tr>
+<td>6400.0</td>
+</tr>
+<tr>
+<td>10033.0</td>
+</tr>
+<tr>
+<td>19333.0</td>
+</tr>
+<tr>
+<td>10150.0</td>
+</tr>
+</table></div></div>
+</div>
+<p>Nu zegt zo’n overzicht met enkel gemiddelde salarissen niet zo veel. Je ziet niet meteen waar die gemiddelde salarissen op slaan. Daarom zetten we er een kolom bij die aangeeft welke afdeling (department_id) bij welk gemiddelde salaris hoort.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">salary</span><span class="p">))</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>department_id</th>
+<th>ROUND(AVG(salary))</th>
+</tr>
+<tr>
+<td></td>
+<td>7000.0</td>
+</tr>
+<tr>
+<td>10</td>
+<td>4400.0</td>
+</tr>
+<tr>
+<td>20</td>
+<td>9500.0</td>
+</tr>
+<tr>
+<td>50</td>
+<td>3500.0</td>
+</tr>
+<tr>
+<td>60</td>
+<td>6400.0</td>
+</tr>
+<tr>
+<td>80</td>
+<td>10033.0</td>
+</tr>
+<tr>
+<td>90</td>
+<td>19333.0</td>
+</tr>
+<tr>
+<td>110</td>
+<td>10150.0</td>
+</tr>
+</table></div></div>
+</div>
+<p>De rijen worden eerst gegroepeerd op department_id en daarna wordt de AVG functie (gemiddelde) toegepast op elke groep.</p>
+<p>Of stel dat je het maximum salaris wil weten van elke afdeling. Eerst een overzicht zonder de afdelingsid’s.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>MAX(salary)</th>
+</tr>
+<tr>
+<td>7000</td>
+</tr>
+<tr>
+<td>4400</td>
+</tr>
+<tr>
+<td>13000</td>
+</tr>
+<tr>
+<td>5800</td>
+</tr>
+<tr>
+<td>9000</td>
+</tr>
+<tr>
+<td>11000</td>
+</tr>
+<tr>
+<td>24000</td>
+</tr>
+<tr>
+<td>12000</td>
+</tr>
+</table></div></div>
+</div>
+<p>Om te laten zien welk maximum salaris bij welke afdeling hoort, voeg je het department_id toe op de SELECT regel.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>department_id</th>
+<th>MAX(salary)</th>
+</tr>
+<tr>
+<td></td>
+<td>7000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>4400</td>
+</tr>
+<tr>
+<td>20</td>
+<td>13000</td>
+</tr>
+<tr>
+<td>50</td>
+<td>5800</td>
+</tr>
+<tr>
+<td>60</td>
+<td>9000</td>
+</tr>
+<tr>
+<td>80</td>
+<td>11000</td>
+</tr>
+<tr>
+<td>90</td>
+<td>24000</td>
+</tr>
+<tr>
+<td>110</td>
+<td>12000</td>
+</tr>
+</table></div></div>
+</div>
+<p>Als je een groepsfunctie gebruikt op de SELECT regel voorafgegaan door een kolomnaam, dan moet die kolomnaam genoemd worden op de GROUP BY regel.
+Dus als er staat SELECT department_id, MAX (salary) op de SELECT regel, dan moet op de GROUP BY regel staan GROUP BY department_id.</p>
+<p>De syntaxis is altijd in deze volgorde:</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">kolomnaam</span><span class="p">,</span><span class="w"> </span><span class="n">groepsfunctie</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">tabel</span>
+<span class="k">WHERE</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">kolomnaam</span>
+<span class="k">HAVING</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span>
+</pre></div>
+</div>
+<p>Voorbeeld: Tel het aantal per job_id. Maar IT_PROG mag niet voorkomen in het overzicht en alleen de job_id’s die meer dan één keer voorkomen mogen worden getoond.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">job_id</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">job_id</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="s1">&#39;IT_PROG&#39;</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">job_id</span>
+<span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">job_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>job_id</th>
+<th>COUNT(job_id)</th>
+</tr>
+<tr>
+<td>AD_VP</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SA_REP</td>
+<td>3</td>
+</tr>
+<tr>
+<td>ST_CLERK</td>
+<td>4</td>
+</tr>
+</table></div></div>
+</div>
+<p>Je mag een alias (AS) gebruiken op de GROUP BY of de ORDER BY regel.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">job_id</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">functie</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">aantal</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">job_id</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="s1">&#39;IT_PROG&#39;</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">functie</span>
+<span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">aantal</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>functie</th>
+<th>aantal</th>
+</tr>
+<tr>
+<td>ST_CLERK</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SA_REP</td>
+<td>3</td>
+</tr>
+<tr>
+<td>AD_VP</td>
+<td>2</td>
+</tr>
+</table></div></div>
+</div>
+<section id="null-waarden">
+<h2>NULL waarden<a class="headerlink" href="#null-waarden" title="Permalink naar deze titel">#</a></h2>
+<p>Groepsfuncties negeren NULL waarden. Vergelijk maar eens de volgende twee query’s waarbij belangrijk is om te weten dat er één werknemer is zonder een department_id (Grant). En let dan op het verschil in de bovenste rij.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">department_id</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>department_id</th>
+<th>COUNT(department_id)</th>
+</tr>
+<tr>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td>10</td>
+<td>1</td>
+</tr>
+<tr>
+<td>20</td>
+<td>2</td>
+</tr>
+<tr>
+<td>50</td>
+<td>5</td>
+</tr>
+<tr>
+<td>60</td>
+<td>3</td>
+</tr>
+<tr>
+<td>80</td>
+<td>3</td>
+</tr>
+<tr>
+<td>90</td>
+<td>3</td>
+</tr>
+<tr>
+<td>110</td>
+<td>2</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>department_id</th>
+<th>COUNT(*)</th>
+</tr>
+<tr>
+<td></td>
+<td>1</td>
+</tr>
+<tr>
+<td>10</td>
+<td>1</td>
+</tr>
+<tr>
+<td>20</td>
+<td>2</td>
+</tr>
+<tr>
+<td>50</td>
+<td>5</td>
+</tr>
+<tr>
+<td>60</td>
+<td>3</td>
+</tr>
+<tr>
+<td>80</td>
+<td>3</td>
+</tr>
+<tr>
+<td>90</td>
+<td>3</td>
+</tr>
+<tr>
+<td>110</td>
+<td>2</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+<section id="where">
+<h2>WHERE<a class="headerlink" href="#where" title="Permalink naar deze titel">#</a></h2>
+<p>Het is mogelijk een WHERE te gebruiken in combinatie met GROUP BY.</p>
+<p>Stel dat je een overzicht wil maken met de hoogste salarissen per afdeling. Dat kan met de volgende query.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>department_id</th>
+<th>MAX(salary)</th>
+</tr>
+<tr>
+<td></td>
+<td>7000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>4400</td>
+</tr>
+<tr>
+<td>20</td>
+<td>13000</td>
+</tr>
+<tr>
+<td>50</td>
+<td>5800</td>
+</tr>
+<tr>
+<td>60</td>
+<td>9000</td>
+</tr>
+<tr>
+<td>80</td>
+<td>11000</td>
+</tr>
+<tr>
+<td>90</td>
+<td>24000</td>
+</tr>
+<tr>
+<td>110</td>
+<td>12000</td>
+</tr>
+</table></div></div>
+</div>
+<p>In de WHERE kun je voorwaarden stellen. Stel bijvoorbeeld dat het salaris van de hoogste baas niet mee mag tellen voor het overzicht. King werkt op afdeling 90. Van die afdeling zal nu het hoogste salaris worden aangepast.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>department_id</th>
+<th>MAX(salary)</th>
+</tr>
+<tr>
+<td></td>
+<td>7000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>4400</td>
+</tr>
+<tr>
+<td>20</td>
+<td>13000</td>
+</tr>
+<tr>
+<td>50</td>
+<td>5800</td>
+</tr>
+<tr>
+<td>60</td>
+<td>9000</td>
+</tr>
+<tr>
+<td>80</td>
+<td>11000</td>
+</tr>
+<tr>
+<td>90</td>
+<td>17000</td>
+</tr>
+<tr>
+<td>110</td>
+<td>12000</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+<section id="order-by">
+<h2>ORDER BY<a class="headerlink" href="#order-by" title="Permalink naar deze titel">#</a></h2>
+<p>Sorteren bij groepsfuncties kan op verschillende manieren. Het kan met het noemen van de groepsfunctie die op de eerste regel staat (MAX(salary)), met behulp van de alias van de kolom (maximum_salaris) of door het nummer van de volgorde van de kolom te noemen, in dit geval 2.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">afdeling</span><span class="p">,</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span><span class="k">AS</span><span class="w"> </span><span class="n">maximum_salaris</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>afdeling</th>
+<th>maximum_salaris</th>
+</tr>
+<tr>
+<td>10</td>
+<td>4400</td>
+</tr>
+<tr>
+<td>50</td>
+<td>5800</td>
+</tr>
+<tr>
+<td></td>
+<td>7000</td>
+</tr>
+<tr>
+<td>60</td>
+<td>9000</td>
+</tr>
+<tr>
+<td>80</td>
+<td>11000</td>
+</tr>
+<tr>
+<td>110</td>
+<td>12000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>13000</td>
+</tr>
+<tr>
+<td>90</td>
+<td>24000</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">afdeling</span><span class="p">,</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">maximum_salaris</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">maximum_salaris</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>afdeling</th>
+<th>maximum_salaris</th>
+</tr>
+<tr>
+<td>10</td>
+<td>4400</td>
+</tr>
+<tr>
+<td>50</td>
+<td>5800</td>
+</tr>
+<tr>
+<td></td>
+<td>7000</td>
+</tr>
+<tr>
+<td>60</td>
+<td>9000</td>
+</tr>
+<tr>
+<td>80</td>
+<td>11000</td>
+</tr>
+<tr>
+<td>110</td>
+<td>12000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>13000</td>
+</tr>
+<tr>
+<td>90</td>
+<td>24000</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">afdeling</span><span class="p">,</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">maximum_salaris</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>afdeling</th>
+<th>maximum_salaris</th>
+</tr>
+<tr>
+<td>10</td>
+<td>4400</td>
+</tr>
+<tr>
+<td>50</td>
+<td>5800</td>
+</tr>
+<tr>
+<td></td>
+<td>7000</td>
+</tr>
+<tr>
+<td>60</td>
+<td>9000</td>
+</tr>
+<tr>
+<td>80</td>
+<td>11000</td>
+</tr>
+<tr>
+<td>110</td>
+<td>12000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>13000</td>
+</tr>
+<tr>
+<td>90</td>
+<td>24000</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+<section id="having">
+<h2>HAVING<a class="headerlink" href="#having" title="Permalink naar deze titel">#</a></h2>
+<p>Stel dat je het maximum salaris wil zien van elke afdeling, maar enkel van de afdelingen met meer dan één werknemer. Dat kun je niet bereiken met een WHERE maar je moet daar een HAVING voor gebruiken.</p>
+<p>Eerst maken we de query zonder HAVING.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>department_id</th>
+<th>MAX(salary)</th>
+</tr>
+<tr>
+<td></td>
+<td>7000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>4400</td>
+</tr>
+<tr>
+<td>20</td>
+<td>13000</td>
+</tr>
+<tr>
+<td>50</td>
+<td>5800</td>
+</tr>
+<tr>
+<td>60</td>
+<td>9000</td>
+</tr>
+<tr>
+<td>80</td>
+<td>11000</td>
+</tr>
+<tr>
+<td>90</td>
+<td>24000</td>
+</tr>
+<tr>
+<td>110</td>
+<td>12000</td>
+</tr>
+</table></div></div>
+</div>
+<p>En dan de query met HAVING zodat je het verschil ziet.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span>
+<span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>department_id</th>
+<th>MAX(salary)</th>
+</tr>
+<tr>
+<td>20</td>
+<td>13000</td>
+</tr>
+<tr>
+<td>50</td>
+<td>5800</td>
+</tr>
+<tr>
+<td>60</td>
+<td>9000</td>
+</tr>
+<tr>
+<td>80</td>
+<td>11000</td>
+</tr>
+<tr>
+<td>90</td>
+<td>24000</td>
+</tr>
+<tr>
+<td>110</td>
+<td>12000</td>
+</tr>
+</table></div></div>
+</div>
+<p>We maken een alias ‘afdeling’ voor department_id en een alias ‘max_salaris’ voor MAX(salary). We sorteren op het maximum salaris (kolom 2 op de bovenste regel) van hoog naar laag (DESC).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">afdeling</span><span class="p">,</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">max_salaris</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department_id</span>
+<span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>afdeling</th>
+<th>max_salaris</th>
+</tr>
+<tr>
+<td>90</td>
+<td>24000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>13000</td>
+</tr>
+<tr>
+<td>110</td>
+<td>12000</td>
+</tr>
+<tr>
+<td>80</td>
+<td>11000</td>
+</tr>
+<tr>
+<td>60</td>
+<td>9000</td>
+</tr>
+<tr>
+<td>50</td>
+<td>5800</td>
+</tr>
+</table></div></div>
+</div>
+<p>En we voegen nog een WHERE toe om de query compleet te maken. De afdeling met als department_id 90 mag niet meetellen. Op de regel met ORDER BY mag je ook het alias (max_salaris) gebruiken dat op de SELECT regel staat.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">afdeling</span><span class="p">,</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">max_salaris</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">90</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">afdeling</span>
+<span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>afdeling</th>
+<th>max_salaris</th>
+</tr>
+<tr>
+<td>20</td>
+<td>13000</td>
+</tr>
+<tr>
+<td>110</td>
+<td>12000</td>
+</tr>
+<tr>
+<td>80</td>
+<td>11000</td>
+</tr>
+<tr>
+<td>60</td>
+<td>9000</td>
+</tr>
+<tr>
+<td>50</td>
+<td>5800</td>
+</tr>
+</table></div></div>
+</div>
+<p>Voor het ongelijk teken != mag je ook &lt;&gt; gebruiken.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "xsqlite"
+        },
+        kernelOptions: {
+            name: "xsqlite",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'xsqlite'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="opdrachten7.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">vorige</p>
+        <p class="prev-next-title">Opdrachten sectie 7</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="vragen8.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">volgende</p>
+        <p class="prev-next-title">Vragen sectie 8</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Inhoud
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#null-waarden">NULL waarden</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where">WHERE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#order-by">ORDER BY</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#having">HAVING</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Door Frans Peeters
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

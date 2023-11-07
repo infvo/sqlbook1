@@ -1,0 +1,1371 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="nl" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Datumfuncties &#8212; Inleiding SQL</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/assessment.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/assessment.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'sectie4/datumfuncties-x';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Zoeken" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="nl"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welkom bij de inleidende cursus SQL
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Inleiding</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../inleiding.html">Inleiding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rdbms.html">RDBMS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 1</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sectie1/select.html">SELECT</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/as.html">AS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/limit.html">LIMIT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/sql-null.html">NULL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/reken-operatoren.html">Rekenkundige operatoren</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie1/vragen1.html">Vragen 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie1/opdrachten1.html">Opdrachten 1</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 2</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/describe.html">DESCRIBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/concat.html">CONCAT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/distinct.html">DISTINCT</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sectie2/where.html">WHERE</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/between-and.html">BETWEEN…AND</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/in.html">IN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/like.html">LIKE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/is-null.html">IS NULL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/is-not-null.html">IS NOT NULL</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/vragen2.html">Vragen 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/opdrachten2.html">Opdrachten 2</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 3</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/logische-operatoren.html">Logische operatoren</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/order-by.html">ORDER BY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/vragen3.html">Vragen Sectie 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/opdrachten3.html">Opdrachten sectie 3</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 4</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tekstfuncties.html">Tekstfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rekenfuncties.html">Rekenfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datumfuncties-sqlite.html">Datumfuncties in SQLite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datumfuncties-mysql.html">Datumfuncties in MySQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="groepsfuncties.html">Groepsfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vragen4.html">Vragen Sectie 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opdrachten4.html">Opdrachten sectie 4</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 5</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/datatypes-sqlite.html">Data types in SQLite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/convert.html">CONVERT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/nesten.html">Nesten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/null-functies.html">NULL functies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/case.html">Case</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/vragen5.html">Vragen sectie 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/opdrachten5.html">Opdrachten 5</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 6</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie6/joins.html">Joins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie6/vragen6.html">Vragen bij sectie 6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie6/opdrachten6.html">Opdrachten 6</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 7</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie7/subquery.html">Subquery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie7/vragen7.html">Vragen Sectie 7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie7/opdrachten7.html">Opdrachten sectie 7</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 8</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie8/groupby.html">GROUP BY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie8/vragen8.html">Vragen sectie 8</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie8/opdrachten8.html">Opdrachten sectie 8</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Over dit materiaal</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sqlite-versie.html">SQLite versie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sqlite-vs-mysql.html">Verschillen SQLite en MySQL</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Bronopslagplaats"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fsectie4/datumfuncties-x.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open een probleem"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download deze pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/sectie4/datumfuncties-x.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download het bronbestand"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Afdrukken naar pdf"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Volledig scherm"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Zoeken" aria-label="Zoeken" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Datumfuncties</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Inhoud </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datum-en-tijd-in-sqlite">Datum en tijd in SQLite</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datum-en-tijd-als-getal">Datum en tijd als getal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strftime">strftime</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-datum-en-tijdfuncties">SQL datum- en tijdfuncties</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sysdate">Sysdate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#day">Day</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#month">Month</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#year">Year</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#date-add">Date_add</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timestampdiff">Timestampdiff</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#date-format">Date_format</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Day</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Month</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Year</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Date_add</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Timestampdiff</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Date_format</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="datumfuncties">
+<h1>Datumfuncties<a class="headerlink" href="#datumfuncties" title="Permalink naar deze titel">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">LOAD</span><span class="w"> </span><span class="p">..</span><span class="o">/</span><span class="k">data</span><span class="o">/</span><span class="n">employees</span><span class="p">.</span><span class="n">db</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="datum-en-tijd-in-sqlite">
+<h2>Datum en tijd in SQLite<a class="headerlink" href="#datum-en-tijd-in-sqlite" title="Permalink naar deze titel">#</a></h2>
+<p>De datum- en tijdfuncties in SQLite wijken nogal af van die in (My)SQL.
+Een uitgebreide beschrijving vind je bijvoorbeeld hier:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.sqlite.org/lang_datefunc.html">https://www.sqlite.org/lang_datefunc.html</a></p></li>
+<li><p><a class="reference external" href="https://www.sqlitetutorial.net/sqlite-date-functions/sqlite-date-function/">https://www.sqlitetutorial.net/sqlite-date-functions/sqlite-date-function/</a></p></li>
+</ul>
+<p>We geven hieronder een aantal voorbeelden van veelvoorkomende gevallen.</p>
+<p>De basisfuncties voor datum en tijd in TEXT-formaat (ISO-8601) zijn:</p>
+<ul class="simple">
+<li><p>DATE - geeft de datum (als TEXT)</p></li>
+<li><p>TIME - geeft de tijd, zonder datum (als TEXT)</p></li>
+<li><p>DATETIME - geeft de combinatie van datum en tijd (als TEXT)</p></li>
+</ul>
+<p>Met deze functies kun je via “modifiers” ook rekenen met tijd, bijvoorbeeld 30 dagen verder, 2 maanden eerder, enzovoorts.</p>
+<section id="datum-en-tijd-als-getal">
+<h3>Datum en tijd als getal<a class="headerlink" href="#datum-en-tijd-als-getal" title="Permalink naar deze titel">#</a></h3>
+<p>De volgende functies geven de datum/tijd als getal: daarmee kun je eenvoudig rekenen, als het om dagen of seconden gaat:</p>
+<ul class="simple">
+<li><p>JULIANDAY - geeft de datum/tijd als getal (aantal dagen sinds 12:00 uur op 24 november 4714 B.C.)</p>
+<ul>
+<li><p>zie: <a class="reference external" href="https://nl.wikipedia.org/wiki/Juliaanse_dag">https://nl.wikipedia.org/wiki/Juliaanse_dag</a></p></li>
+</ul>
+</li>
+<li><p>UNIXEPOCH - geeft de datum/tijd als getal (Unix timestamp: seconden sinds 1 jan 1970)</p></li>
+</ul>
+<p>Deze getallen kun je omzetten in (ISO) TEXT-formaat met de eerder genoemde DATE/TIME/DATETIME functies.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>DATE('now')</th>
+</tr>
+<tr>
+<td>2023-07-20</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;start of year&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>DATE ('now', 'start of year')</th>
+</tr>
+<tr>
+<td>2023-01-01</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="k">TIME</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>TIME ('now')</th>
+</tr>
+<tr>
+<td>12:00:18</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">DATETIME</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;+10 days&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>DATETIME('now', "+10 days")</th>
+</tr>
+<tr>
+<td>2023-07-30 12:00:18</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">JULIANDAY</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;-1 month&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>JULIANDAY('now', "-1 month")</th>
+</tr>
+<tr>
+<td>2460116.00021252</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">UNIXEPOCH</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>UNIXEPOCH('now')</th>
+</tr>
+<tr>
+<td>1689854418</td>
+</tr>
+</table></div></div>
+</div>
+<p>Omzetten van unix tijd (getal) naar ISO TEXT waarde:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">DATETIME</span><span class="p">(</span><span class="n">UNIXEPOCH</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;unixepoch&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>DATETIME(UNIXEPOCH('now'), 'unixepoch')</th>
+</tr>
+<tr>
+<td>2023-07-20 12:00:18</td>
+</tr>
+</table></div></div>
+</div>
+<p>Idem, voor Juliaanse tijd (getal):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">DATETIME</span><span class="p">(</span><span class="n">JULIANDAY</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>DATETIME(JULIANDAY('now'))</th>
+</tr>
+<tr>
+<td>2023-07-20 12:00:18</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+<section id="strftime">
+<h3>strftime<a class="headerlink" href="#strftime" title="Permalink naar deze titel">#</a></h3>
+<p>Met de functie <code class="docutils literal notranslate"><span class="pre">strftime(format,</span> <span class="pre">datetime)</span></code> kun je het TEXT-formaat van de datum/tijd aanpassen, bijvoorbeeld om een onderdeel te selecteren (zoals “dag”, “maand”, “jaar”).</p>
+<p>**Dag. **Met het format <code class="docutils literal notranslate"><span class="pre">%d</span></code> krijg je het nummer van de dag in de maand van een datum:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%d&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">day</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>hire_date</th>
+<th>day</th>
+</tr>
+<tr>
+<td>King</td>
+<td>1987-06-17</td>
+<td>17</td>
+</tr>
+</table></div></div>
+</div>
+<p><strong>Weekdag.</strong> Als je de dag in de week wilt (met zondag = 0), gebruik je <code class="docutils literal notranslate"><span class="pre">%w</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%w&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">day_in_week</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>hire_date</th>
+<th>day_in_week</th>
+</tr>
+<tr>
+<td>King</td>
+<td>1987-06-17</td>
+<td>3</td>
+</tr>
+</table></div></div>
+</div>
+<p><strong>Maand.</strong> Met het format <code class="docutils literal notranslate"><span class="pre">%m</span></code> haal je het nummer van de maand op van een datum.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%m&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">month</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>hire_date</th>
+<th>month</th>
+</tr>
+<tr>
+<td>King</td>
+<td>1987-06-17</td>
+<td>06</td>
+</tr>
+</table></div></div>
+</div>
+<p><strong>Jaar.</strong> Met het format <code class="docutils literal notranslate"><span class="pre">%Y</span></code> YEAR haal je het jaar op van een datum.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">year</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>hire_date</th>
+<th>year</th>
+</tr>
+<tr>
+<td>King</td>
+<td>1987-06-17</td>
+<td>1987</td>
+</tr>
+</table></div></div>
+</div>
+<p><strong>Opmerking.</strong> SQLite heeft geen mogelijkheid om maanden of weekdagen te benoemen. Als dat nodig is, kun je de getallen via een <code class="docutils literal notranslate"><span class="pre">CASE</span></code> constructie omzetten in de gewenste namen.</p>
+</section>
+</section>
+<section id="sql-datum-en-tijdfuncties">
+<h2>SQL datum- en tijdfuncties<a class="headerlink" href="#sql-datum-en-tijdfuncties" title="Permalink naar deze titel">#</a></h2>
+<p>Het rekenen met datums en tijden in SQL is vrij complex, met aparte “INTERVAL” waarden.
+Er zijn ontzettend veel mogelijkheden met datumfuncties. Een overzicht vind je hier:</p>
+<p><a class="reference external" href="https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html">https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html</a></p>
+<p>Hieronder geven we de MySQL voorbeelden.</p>
+<section id="sysdate">
+<h3>Sysdate<a class="headerlink" href="#sysdate" title="Permalink naar deze titel">#</a></h3>
+<p>Met <code class="docutils literal notranslate"><span class="pre">SYSDATE()</span></code> haal je de systeemdatum op, de datum van vandaag. Hetzelfde bereik je min of meer met <code class="docutils literal notranslate"><span class="pre">NOW()</span></code>, <code class="docutils literal notranslate"><span class="pre">LOCALTIME</span></code> of <code class="docutils literal notranslate"><span class="pre">LOCALTIMESTAMP</span></code>. Er zijn subtiele verschillen.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">SYSDATE</span><span class="p">(),</span><span class="w"> </span><span class="n">NOW</span><span class="p">(),</span><span class="w"> </span><span class="k">LOCALTIME</span><span class="p">,</span><span class="w"> </span><span class="k">LOCALTIMESTAMP</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0104.png" /></p>
+</section>
+<section id="day">
+<h3>Day<a class="headerlink" href="#day" title="Permalink naar deze titel">#</a></h3>
+<p>Met <code class="docutils literal notranslate"><span class="pre">DAY()</span></code> haal je het nummer van de dag op van een datum.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="k">DAY</span><span class="p">(</span><span class="n">hire_date</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0095.png" /></p>
+<p>Als je de naam van de dag wil, dan gebruik je <code class="docutils literal notranslate"><span class="pre">DAYNAME()</span></code>.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">DAYNAME</span><span class="p">(</span><span class="n">hire_date</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0099.png" /></p>
+</section>
+<section id="month">
+<h3>Month<a class="headerlink" href="#month" title="Permalink naar deze titel">#</a></h3>
+<p>Met <code class="docutils literal notranslate"><span class="pre">MONTH()</span></code> haal je het nummer van de maand op van een datum.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="k">MONTH</span><span class="p">(</span><span class="n">hire_date</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0096.png" /></p>
+<p>Als je de naam van de maand wil, dan gebruik je MONTHNAME.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">MONTHNAME</span><span class="p">(</span><span class="n">hire_date</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0098.png" /></p>
+</section>
+<section id="year">
+<h3>Year<a class="headerlink" href="#year" title="Permalink naar deze titel">#</a></h3>
+<p>Met <code class="docutils literal notranslate"><span class="pre">YEAR()</span></code> haal je het jaar op van een datum.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="k">YEAR</span><span class="p">(</span><span class="n">hire_date</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0097.png" /></p>
+<p>Op deze manier kun je datums van elkaar aftrekken. Bij jaren wordt dan de uitkomst naar beneden afgerond.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="k">YEAR</span><span class="p">(</span><span class="n">hire_date</span><span class="p">),</span><span class="w"> </span><span class="k">YEAR</span><span class="p">(</span><span class="n">NOW</span><span class="p">()),</span><span class="w"> </span><span class="k">YEAR</span><span class="p">(</span><span class="n">NOW</span><span class="p">())</span><span class="o">-</span><span class="k">YEAR</span><span class="p">(</span><span class="n">hire_date</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dienstjaren</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0105.png" /></p>
+</section>
+<section id="date-add">
+<h3>Date_add<a class="headerlink" href="#date-add" title="Permalink naar deze titel">#</a></h3>
+<p>Met <code class="docutils literal notranslate"><span class="pre">DATE_ADD</span></code> kun je dagen, maanden of jaren toevoegen aan een datum. Met <code class="docutils literal notranslate"><span class="pre">INTERVAL</span></code> geef je aan wat en hoeveel je wil toevoegen. In onderstaande voorbeelden wordt achtereenvolgens 6 dagen, 6 maanden en 6 jaar toegevoegd aan de hire_date.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">DATE_ADD</span><span class="p">(</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="k">DAY</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0101.png" /></p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">DATE_ADD</span><span class="p">(</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="k">MONTH</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0100.png" /></p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">DATE_ADD</span><span class="p">(</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="k">YEAR</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0102.png" /></p>
+</section>
+<section id="timestampdiff">
+<h3>Timestampdiff<a class="headerlink" href="#timestampdiff" title="Permalink naar deze titel">#</a></h3>
+<p>Met <code class="docutils literal notranslate"><span class="pre">TIMESTAMPDIFF()</span></code> kun je het verschil tussen twee datums uitrekenen, bijvoorbeeld in jaren of maanden.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">TIMESTAMPDIFF</span><span class="p">(</span><span class="k">YEAR</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">SYSDATE</span><span class="p">())</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0106.png" /></p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">TIMESTAMPDIFF</span><span class="p">(</span><span class="k">MONTH</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">SYSDATE</span><span class="p">())</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0107.png" /></p>
+</section>
+<section id="date-format">
+<h3>Date_format<a class="headerlink" href="#date-format" title="Permalink naar deze titel">#</a></h3>
+<p>Datumvelden kun je op allerlei mogelijke manieren vormgeven met <code class="docutils literal notranslate"><span class="pre">DATE_FORMAT()</span></code>. Een overzicht van alle mogelijkheden vind je hier:</p>
+<p><a class="reference external" href="https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_date-format">https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_date-format</a></p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;%d %M %Y&#39;</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0103.png" /></p>
+<p>Als je de uitvoer in het Nederlands wil, dan kun je met een <code class="docutils literal notranslate"><span class="pre">SET</span></code> de local time name op Nederlands zetten. In dit voorbeeld zie je dan <em>juni</em> in het Nederlands in plaats van <em>June</em> in het Engels. Let op dat er op het eind van de <code class="docutils literal notranslate"><span class="pre">SET</span></code> een puntkomma staat! Het zijn dus eigenljk twee commando’s achter elkaar. Je kunt de SET regel ook los invoeren en dan werkt de instelling zolang je in dezelfde sessie bent. Als je de beheerder zou zijn van de database, dan kun je deze SET vastleggen zodat je altijd de uitvoer in het Nederlands hebt.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SET</span><span class="w"> </span><span class="n">lc_time_names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;nl_NL&#39;</span><span class="p">;</span>
+
+<span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;%d %M %Y&#39;</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0109.png" /></p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">SYSDATE</span><span class="p">(),</span><span class="w"> </span><span class="n">NOW</span><span class="p">(),</span><span class="w"> </span><span class="k">LOCALTIME</span><span class="p">,</span><span class="w"> </span><span class="k">LOCALTIMESTAMP</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>DATE('now')</th>
+</tr>
+<tr>
+<td>2023-07-20</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="k">TIME</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>TIME ('now')</th>
+</tr>
+<tr>
+<td>12:00:18</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">DATETIME</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>DATETIME('now')</th>
+</tr>
+<tr>
+<td>2023-07-20 12:00:18</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">JULIANDAY</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>JULIANDAY('now')</th>
+</tr>
+<tr>
+<td>2460146.00021286</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">UNIXEPOCH</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>UNIXEPOCH('now')</th>
+</tr>
+<tr>
+<td>1689854418</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">DATETIME</span><span class="p">(</span><span class="n">UNIXEPOCH</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;unixepoch&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>DATETIME(UNIXEPOCH('now'), 'unixepoch')</th>
+</tr>
+<tr>
+<td>2023-07-20 12:00:18</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">DATETIME</span><span class="p">(</span><span class="n">JULIANDAY</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>DATETIME(JULIANDAY('now'))</th>
+</tr>
+<tr>
+<td>2023-07-20 12:00:18</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+</section>
+<section id="id1">
+<h2>Day<a class="headerlink" href="#id1" title="Permalink naar deze titel">#</a></h2>
+<p>Met het format <code class="docutils literal notranslate"><span class="pre">%d</span></code> krijg je het nummer van de dag van een datum:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%d&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">day</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>hire_date</th>
+<th>day</th>
+</tr>
+<tr>
+<td>King</td>
+<td>1987-06-17</td>
+<td>17</td>
+</tr>
+</table></div></div>
+</div>
+<p>Als je de dag in de week wilt (met zondag = 0), gebruik je <code class="docutils literal notranslate"><span class="pre">%w</span></code>: naam van de dag wil, dan gebruik je DAYNAME.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%w&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">weekday</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>hire_date</th>
+<th>weekday</th>
+</tr>
+<tr>
+<td>King</td>
+<td>1987-06-17</td>
+<td>3</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+<section id="id2">
+<h2>Month<a class="headerlink" href="#id2" title="Permalink naar deze titel">#</a></h2>
+<p>Met het format <code class="docutils literal notranslate"><span class="pre">%m</span></code> haal je het nummer van de maand op van een datum.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%m&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">month</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>hire_date</th>
+<th>month</th>
+</tr>
+<tr>
+<td>King</td>
+<td>1987-06-17</td>
+<td>06</td>
+</tr>
+</table></div></div>
+</div>
+<p>Als je de naam van de maand wil, dan gebruik je MONTHNAME.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">MONTHNAME</span><span class="p">(</span><span class="n">hire_date</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">Error</span>: no such function: MONTHNAME
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h2>Year<a class="headerlink" href="#id3" title="Permalink naar deze titel">#</a></h2>
+<p>Met het format <code class="docutils literal notranslate"><span class="pre">%Y</span></code> YEAR haal je het jaar op van een datum.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">year</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>hire_date</th>
+<th>year</th>
+</tr>
+<tr>
+<td>King</td>
+<td>1987-06-17</td>
+<td>1987</td>
+</tr>
+</table></div></div>
+</div>
+<p>Op deze manier kun je datums van elkaar aftrekken. Bij jaren wordt dan de uitkomst naar beneden afgerond.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="k">YEAR</span><span class="p">(</span><span class="n">hire_date</span><span class="p">),</span><span class="w"> </span><span class="k">YEAR</span><span class="p">(</span><span class="n">NOW</span><span class="p">()),</span><span class="w"> </span><span class="k">YEAR</span><span class="p">(</span><span class="n">NOW</span><span class="p">())</span><span class="o">-</span><span class="k">YEAR</span><span class="p">(</span><span class="n">hire_date</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dienstjaren</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">Error</span>: no such function: YEAR
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id4">
+<h2>Date_add<a class="headerlink" href="#id4" title="Permalink naar deze titel">#</a></h2>
+<p>Met DATE_ADD kun je dagen, maanden of jaren toevoegen aan een datum. Met INTERVAL geef je aan wat en hoeveel je wil toevoegen. In onderstaande voorbeelden wordt achtereenvolgens 6 dagen, 6 maanden en 6 jaar toegevoegd aan de hire_date.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">DATE_ADD</span><span class="p">(</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="k">DAY</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">Error</span>: near &quot;6&quot;: syntax error
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">DATE_ADD</span><span class="p">(</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="k">MONTH</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">Error</span>: near &quot;6&quot;: syntax error
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">DATE_ADD</span><span class="p">(</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="k">YEAR</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">Error</span>: near &quot;6&quot;: syntax error
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id5">
+<h2>Timestampdiff<a class="headerlink" href="#id5" title="Permalink naar deze titel">#</a></h2>
+<p>Met TIMESTAMPDIFF kun je het verschil tussen twee datums uitrekenen, bijvoorbeeld in jaren of maanden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">TIMESTAMPDIFF</span><span class="p">(</span><span class="k">YEAR</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">SYSDATE</span><span class="p">())</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">Error</span>: no such column: YEAR
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">TIMESTAMPDIFF</span><span class="p">(</span><span class="k">MONTH</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">SYSDATE</span><span class="p">())</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">Error</span>: no such column: MONTH
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id6">
+<h2>Date_format<a class="headerlink" href="#id6" title="Permalink naar deze titel">#</a></h2>
+<p>Datumvelden kun je op allerlei mogelijke manieren vormgeven met DATE_FORMAT. Een overzicht van alle mogelijkheden vind je hier:</p>
+<p><a class="reference external" href="https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_date-format">https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_date-format</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;%d %M %Y&#39;</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">Error</span>: no such function: DATE_FORMAT
+</pre></div>
+</div>
+</div>
+</div>
+<p>Als je de uitvoer in het Nederlands wil, dan kun je met een SET de local time name op Nederlands zetten. In dit voorbeeld zie je dan juni in het Nederlands in plaats van June in het Engels. Let op dat er op het eind van de SET een puntkomma staat! Het zijn dus eigenljk twee commando’s achter elkaar. Je kunt de SET regel ook los invoeren en dan werkt de instelling zolang je in dezelfde sessie bent. Als je de beheerder zou zijn van de database, dan kun je deze SET vastleggen zodat je altijd de uitvoer in het Nederlands hebt.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SET</span><span class="w"> </span><span class="n">lc_time_names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;nl_NL&#39;</span><span class="p">;</span>
+
+<span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;%d %M %Y&#39;</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">Error</span>: near &quot;SET&quot;: syntax error
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span>SELECT DATE_ADD(DATE(&#39;now&#39;), INTERVAL &#39;30&#39; DAY&#39;); 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">Error</span>: near &quot;&#39;30&#39;&quot;: syntax error
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;+30 day&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>DATE('now', '+30 day')</th>
+</tr>
+<tr>
+<td>2023-08-04</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "xsqlite"
+        },
+        kernelOptions: {
+            name: "xsqlite",
+            path: "./sectie4"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'xsqlite'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Inhoud
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datum-en-tijd-in-sqlite">Datum en tijd in SQLite</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datum-en-tijd-als-getal">Datum en tijd als getal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strftime">strftime</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-datum-en-tijdfuncties">SQL datum- en tijdfuncties</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sysdate">Sysdate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#day">Day</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#month">Month</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#year">Year</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#date-add">Date_add</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timestampdiff">Timestampdiff</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#date-format">Date_format</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Day</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Month</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Year</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Date_add</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Timestampdiff</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Date_format</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Door Frans Peeters
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

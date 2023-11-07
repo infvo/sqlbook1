@@ -1,0 +1,3135 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="nl" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Joins &#8212; Inleiding SQL</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/assessment.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/assessment.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'sectie6/joins';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Zoeken" href="../search.html" />
+    <link rel="next" title="Vragen bij sectie 6" href="vragen6.html" />
+    <link rel="prev" title="Opdrachten 5" href="../sectie5/opdrachten5.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="nl"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welkom bij de inleidende cursus SQL
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Inleiding</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../inleiding.html">Inleiding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rdbms.html">RDBMS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 1</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sectie1/select.html">SELECT</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/as.html">AS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/limit.html">LIMIT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/sql-null.html">NULL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/reken-operatoren.html">Rekenkundige operatoren</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie1/vragen1.html">Vragen 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie1/opdrachten1.html">Opdrachten 1</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 2</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/describe.html">DESCRIBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/concat.html">CONCAT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/distinct.html">DISTINCT</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sectie2/where.html">WHERE</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/between-and.html">BETWEEN…AND</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/in.html">IN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/like.html">LIKE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/is-null.html">IS NULL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/is-not-null.html">IS NOT NULL</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/vragen2.html">Vragen 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/opdrachten2.html">Opdrachten 2</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 3</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/logische-operatoren.html">Logische operatoren</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/order-by.html">ORDER BY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/vragen3.html">Vragen Sectie 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/opdrachten3.html">Opdrachten sectie 3</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 4</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/tekstfuncties.html">Tekstfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/rekenfuncties.html">Rekenfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/datumfuncties-sqlite.html">Datumfuncties in SQLite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/datumfuncties-mysql.html">Datumfuncties in MySQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/groepsfuncties.html">Groepsfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/vragen4.html">Vragen Sectie 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/opdrachten4.html">Opdrachten sectie 4</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 5</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/datatypes-sqlite.html">Data types in SQLite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/datatypes-mysql.html">Data types in MySQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/nesten.html">Nesten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/null-functies.html">NULL functies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/case.html">Case</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/vragen5.html">Vragen sectie 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie5/opdrachten5.html">Opdrachten 5</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 6</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Joins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vragen6.html">Vragen bij sectie 6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opdrachten6.html">Opdrachten 6</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 7</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie7/subquery.html">Subquery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie7/vragen7.html">Vragen Sectie 7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie7/opdrachten7.html">Opdrachten sectie 7</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 8</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie8/groupby.html">GROUP BY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie8/vragen8.html">Vragen sectie 8</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie8/opdrachten8.html">Opdrachten sectie 8</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Over dit materiaal</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sqlite-versie.html">SQLite versie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sqlite-vs-mysql.html">Verschillen SQLite en MySQL</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/infvo/sqlbook1" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Bronopslagplaats"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/infvo/sqlbook1/issues/new?title=Issue%20on%20page%20%2Fsectie6/joins.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open een probleem"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download deze pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/sectie6/joins.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download het bronbestand"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Afdrukken naar pdf"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Volledig scherm"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Zoeken" aria-label="Zoeken" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Joins</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Inhoud </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-join">Cross join</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#natural-join">Natural join</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inner-join">Inner join</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#join-using">Join using</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#join-on">Join on</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outer-join">Outer join</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#left-join">Left join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#right-join">Right join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-join">Full join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#self-join">Self join</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equi-join">Equi join</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="joins">
+<h1>Joins<a class="headerlink" href="#joins" title="Permalink naar deze titel">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">LOAD</span><span class="w"> </span><span class="p">..</span><span class="o">/</span><span class="k">data</span><span class="o">/</span><span class="n">employees</span><span class="p">.</span><span class="n">db</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Tot nu toe hebben we vrijwel alleen nog maar informatie gehaald uit één tabel, maar heel vaak zul je informatie op willen halen die uit verschillende tabellen komt. Stel bijvoorbeeld dat je alle achternamen wil tonen met hun department_id en de department_name. De last_name staat in de tabel employees, department_name staat in departments en het department_id staat zowel in employees als in departments. Probeer onderstaande query en je zult zien dat je een foutmelding krijgt!</p>
+<div class="cell tag_raises-exception docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="n">department_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">,</span><span class="w"> </span><span class="n">departments</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">Error</span>: ambiguous column name: department_id
+</pre></div>
+</div>
+</div>
+</div>
+<p>Het systeem meldt dat de kolom department_id ambigu (tweeslachtig) is. Dat komt omdat <code class="docutils literal notranslate"><span class="pre">department_id</span></code> zowel in <code class="docutils literal notranslate"><span class="pre">employees</span></code> staat als in <code class="docutils literal notranslate"><span class="pre">departments</span></code> en het systeem weet niet welke kolom je bedoelt. Door het gebruik van een <em>alias</em> voor de tabellen <code class="docutils literal notranslate"><span class="pre">employees</span></code> en <code class="docutils literal notranslate"><span class="pre">departments</span></code> kun je aangeven uit welke tabel <code class="docutils literal notranslate"><span class="pre">department_id</span></code> genomen moet worden. We passen nu de query aan door een alias toe te voegen aan de beide tabellen. De tabel <code class="docutils literal notranslate"><span class="pre">employees</span></code> noemen we tijdelijk ‘e’ en de tabel <code class="docutils literal notranslate"><span class="pre">departments</span></code> noemen we tijdelijk ‘d’. De query zal het nu wel doen, maar we hebben een ander probleem!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">department_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="n">d</span>
+<span class="k">LIMIT</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>department_id</th>
+<th>department_name</th>
+</tr>
+<tr>
+<td>King</td>
+<td>10</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>King</td>
+<td>20</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>King</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>King</td>
+<td>60</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>King</td>
+<td>80</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>King</td>
+<td>90</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>King</td>
+<td>110</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>King</td>
+<td>190</td>
+<td>Contracting</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>10</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>20</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>60</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>80</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>90</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>110</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>190</td>
+<td>Contracting</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>10</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>20</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>60</td>
+<td>IT</td>
+</tr>
+</table></div></div>
+</div>
+<p>Er verschijnen 160 rijen en je ziet dat alle employees allemaal op alle departments werken. Er zijn 20 employees en 8 departments en je krijgt dus 20 x 8 = 160 rijen terug. In onderstaande afbeelding worden enkel King en Kochar getoond. In zo’n geval spreekt men van een <em>Cartesisch product</em>.</p>
+<p>Je begrijpt dat dit niet de bedoeling is. King en Kochar werken alleen maar op de afdeling Executive. Om de juiste gegevens te krijgen moet je iets heel belangrijks doen en dat is dat je een <strong>join voorwaarde</strong> inbouwt. Dat kan bijvoorbeeld op de volgende manier met een <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> component.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">department_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="n">d</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>department_id</th>
+<th>department_name</th>
+</tr>
+<tr>
+<td>King</td>
+<td>90</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>90</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>90</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>60</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Ernst</td>
+<td>60</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+<td>60</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>80</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Abel</td>
+<td>80</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Taylor</td>
+<td>80</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>10</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>20</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>20</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>110</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>Gietz</td>
+<td>110</td>
+<td>Accounting</td>
+</tr>
+</table></div></div>
+</div>
+<p>Nu krijg je de juiste informatie met 19 rijen. Geen 20 want Grant werkt niet op een afdeling.</p>
+<p>We noemen dit een equijoin. Equi (gelijk) slaat op het is-gelijk-teken. Er is een aantal mogelijkheden om de juiste informatie uit verschillende tabellen te halen. Hierna komen ze allemaal aan bod zodat je ze herkent.</p>
+<p><strong>In de praktijk wordt echter vooral de LEFT JOIN ON gebruikt en daar moeten we de grootste aandacht naar uit laten gaan.</strong></p>
+<section id="cross-join">
+<h2>Cross join<a class="headerlink" href="#cross-join" title="Permalink naar deze titel">#</a></h2>
+<p>Een CROSS JOIN voegt elke rij van een tabel samen met elke andere rij in een andere tabel. Als je een tabel hebt met twintig rijen (employees bijvoorbeeld) die je samenvoegt met een tabel van acht rijen (departments bijvoorbeeld), dan krijg je 160 rijen als resultaat. Elke werknemer (employee) wordt aan elke afdeling (department) gekoppeld. In zo’n geval spreekt men van een Cartesisch product, zoals al eerder besproken.</p>
+<p><img alt="" src="../_images/cross-join.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">department_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">CROSS</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span>
+<span class="k">LIMIT</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>department_name</th>
+</tr>
+<tr>
+<td>King</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>King</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>King</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>King</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>King</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>King</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>King</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>King</td>
+<td>Contracting</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Contracting</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>IT</td>
+</tr>
+</table></div></div>
+</div>
+<p>Je begrijpt dat dit niet de bedoeling kan zijn. CROSS kan overigens gewoon worden weggelaten voor hetzelfde effect.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">department_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span>
+<span class="k">LIMIT</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>department_name</th>
+</tr>
+<tr>
+<td>King</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>King</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>King</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>King</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>King</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>King</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>King</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>King</td>
+<td>Contracting</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Contracting</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>IT</td>
+</tr>
+</table></div></div>
+</div>
+<p>De CROSS JOIN wordt in de praktijk zelden gebruikt, maar je kunt bijvoorbeeld testen of kolomnamen en tabelnamen kloppen in een query en daarna pas de query verfijnen.</p>
+</section>
+<section id="natural-join">
+<h2>Natural join<a class="headerlink" href="#natural-join" title="Permalink naar deze titel">#</a></h2>
+<p>Uit twee tabellen wordt één resultaattabel afgeleid, waarvan de rijen bestaan uit alle mogelijke combinaties van een rij uit de ene met een rij uit de andere tabel, mits beide rijen voor alle gelijknamige kolomnamen dezelfde waarden hebben en ze moeten van hetzelfde datatype zijn. Als de kolommen dezelfde naam hebben maar van een verschillend datatype zijn, krijg je een foutmelding. Een combinatie van twee rijen ontstaat door ze aan elkaar te plakken en de dubbele waarden slechts eenmaal in het resultaat op te nemen. Het DBMS leidt de voorwaarde van de join dus zelf af door te kijken naar de namen van de kolommen in de beide tabellen.</p>
+<p>De tabel employees heeft een kolom job_id. Dit job_id verwijst naar de kolom met dezelfde naam in de tabel jobs. Ze zijn beide van het type VARCHAR(10). Dus job_id staat zowel in de tabel employees als in de tabel jobs. Maar job_title staat alleen maar in de tabel jobs.</p>
+<p><img alt="" src="../_images/natural-join-table.png" /></p>
+<p>Als je nu een overzicht wil maken van personeelsleden met daarin ook hun job_title dan gebruik je de volgende query:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">job_id</span><span class="p">,</span><span class="w"> </span><span class="n">job_title</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">NATURAL</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">jobs</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>first_name</th>
+<th>last_name</th>
+<th>job_id</th>
+<th>job_title</th>
+</tr>
+<tr>
+<td>Steven</td>
+<td>King</td>
+<td>AD_PRES</td>
+<td>President</td>
+</tr>
+<tr>
+<td>Neena</td>
+<td>Kochhar</td>
+<td>AD_VP</td>
+<td>Administration Vice President</td>
+</tr>
+<tr>
+<td>Lex</td>
+<td>De Haan</td>
+<td>AD_VP</td>
+<td>Administration Vice President</td>
+</tr>
+<tr>
+<td>Alexander</td>
+<td>Hunold</td>
+<td>IT_PROG</td>
+<td>Programmer</td>
+</tr>
+<tr>
+<td>Bruce</td>
+<td>Ernst</td>
+<td>IT_PROG</td>
+<td>Programmer</td>
+</tr>
+<tr>
+<td>Diana</td>
+<td>Lorentz</td>
+<td>IT_PROG</td>
+<td>Programmer</td>
+</tr>
+<tr>
+<td>Kevin</td>
+<td>Mourgos</td>
+<td>ST_MAN</td>
+<td>Stock Manager</td>
+</tr>
+<tr>
+<td>Trenna</td>
+<td>Rajs</td>
+<td>ST_CLERK</td>
+<td>Stock Clerk</td>
+</tr>
+<tr>
+<td>Curtis</td>
+<td>Davies</td>
+<td>ST_CLERK</td>
+<td>Stock Clerk</td>
+</tr>
+<tr>
+<td>Randall</td>
+<td>Matos</td>
+<td>ST_CLERK</td>
+<td>Stock Clerk</td>
+</tr>
+<tr>
+<td>Peter</td>
+<td>Vargas</td>
+<td>ST_CLERK</td>
+<td>Stock Clerk</td>
+</tr>
+<tr>
+<td>Eleni</td>
+<td>Zlotkey</td>
+<td>SA_MAN</td>
+<td>Sales Manager</td>
+</tr>
+<tr>
+<td>Ellen</td>
+<td>Abel</td>
+<td>SA_REP</td>
+<td>Sales Representative</td>
+</tr>
+<tr>
+<td>Jonathon</td>
+<td>Taylor</td>
+<td>SA_REP</td>
+<td>Sales Representative</td>
+</tr>
+<tr>
+<td>Kimberely</td>
+<td>Grant</td>
+<td>SA_REP</td>
+<td>Sales Representative</td>
+</tr>
+<tr>
+<td>Jennifer</td>
+<td>Whalen</td>
+<td>AD_ASST</td>
+<td>Administration Assistant</td>
+</tr>
+<tr>
+<td>Michael</td>
+<td>Hartstein</td>
+<td>MK_MAN</td>
+<td>Marketing Manager</td>
+</tr>
+<tr>
+<td>Pat</td>
+<td>Fay</td>
+<td>MK_REP</td>
+<td>Marketing Representative</td>
+</tr>
+<tr>
+<td>Shelley</td>
+<td>Higgins</td>
+<td>AC_MGR</td>
+<td>Accounting Manager</td>
+</tr>
+<tr>
+<td>William</td>
+<td>Gietz</td>
+<td>AC_ACCOUNT</td>
+<td>Public Accountant</td>
+</tr>
+</table></div></div>
+</div>
+<p>Nog een voorbeeld. Je wil alle department_names tonen met de city. De department_names staan in de tabel departments en city staat in de tabel locations. In beide tabellen staat een kolom <code class="docutils literal notranslate"><span class="pre">location_id</span></code> van het type SMALLINT(6).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_name</span><span class="p">,</span><span class="w"> </span><span class="n">city</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="k">NATURAL</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">locations</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>department_name</th>
+<th>city</th>
+</tr>
+<tr>
+<td>Administration</td>
+<td>Seattle</td>
+</tr>
+<tr>
+<td>Marketing</td>
+<td>Toronto</td>
+</tr>
+<tr>
+<td>Shipping</td>
+<td>South San Francisco</td>
+</tr>
+<tr>
+<td>IT</td>
+<td>Southlake</td>
+</tr>
+<tr>
+<td>Sales</td>
+<td>Oxford</td>
+</tr>
+<tr>
+<td>Executive</td>
+<td>Seattle</td>
+</tr>
+<tr>
+<td>Accounting</td>
+<td>Seattle</td>
+</tr>
+<tr>
+<td>Contracting</td>
+<td>Seattle</td>
+</tr>
+</table></div></div>
+</div>
+<p>Het is mogelijk WHERE te gebruiken met een natural join.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">job_id</span><span class="p">,</span><span class="w"> </span><span class="n">job_title</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">NATURAL</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">jobs</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>first_name</th>
+<th>last_name</th>
+<th>job_id</th>
+<th>job_title</th>
+</tr>
+<tr>
+<td>Steven</td>
+<td>King</td>
+<td>AD_PRES</td>
+<td>President</td>
+</tr>
+</table></div></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Waarschuwing</p>
+<p>Het gebruik van de NATURAL JOIN wordt sterk afgeraden aangezien je de kans loopt onbetrouwbare informatie op te halen op deze manier. In de praktijk wordt de NATURAL JOIN dan ook zelden of niet gebruikt. De enige reden dat deze hier genoemd wordt, is dat je moet weten dat hij bestaat, maar gebruik hem dus niet!</p>
+</div>
+<p>Neem bijvoorbeeld onderstaande query.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">job_id</span><span class="p">,</span><span class="w"> </span><span class="n">department_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">NATURAL</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>first_name</th>
+<th>last_name</th>
+<th>job_id</th>
+<th>department_name</th>
+</tr>
+<tr>
+<td>Neena</td>
+<td>Kochhar</td>
+<td>AD_VP</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Lex</td>
+<td>De Haan</td>
+<td>AD_VP</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Bruce</td>
+<td>Ernst</td>
+<td>IT_PROG</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Diana</td>
+<td>Lorentz</td>
+<td>IT_PROG</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Trenna</td>
+<td>Rajs</td>
+<td>ST_CLERK</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Curtis</td>
+<td>Davies</td>
+<td>ST_CLERK</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Randall</td>
+<td>Matos</td>
+<td>ST_CLERK</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Peter</td>
+<td>Vargas</td>
+<td>ST_CLERK</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Ellen</td>
+<td>Abel</td>
+<td>SA_REP</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Jonathon</td>
+<td>Taylor</td>
+<td>SA_REP</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Pat</td>
+<td>Fay</td>
+<td>MK_REP</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>William</td>
+<td>Gietz</td>
+<td>AC_ACCOUNT</td>
+<td>Accounting</td>
+</tr>
+</table></div></div>
+</div>
+<p>Er zitten twintig employees in de tabel employees en met deze NATURAL JOIN van de tabellen employees en departments komen er maar twaalf rijen terug!</p>
+</section>
+<section id="inner-join">
+<h2>Inner join<a class="headerlink" href="#inner-join" title="Permalink naar deze titel">#</a></h2>
+<p>Met een INNER JOIN worden de rijen getoond die in twee of meerdere tabellen voorkomen. In plaats van INNER JOIN kun je gewoon JOIN gebruiken. Een JOIN maak je met USING of met JOIN ON. Een INNER JOIN wordt ook wel een SIMPLE JOIN genoemd. De eerste tabel heeft zwart, blauw en wit. De tweede tabel heeft blauw, wit en oranje. Alleen blauw en wit komen voor in beide tabellen en die worden dan getoond. Zwart en oranje worden niet getoond.</p>
+<p><img alt="" src="../_images/inner-join.png" /></p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/inner-join.png"><img alt="../_images/inner-join.png" src="../_images/inner-join.png" style="width: 500px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">INNER JOIN</span><a class="headerlink" href="#id1" title="Permallink naar deze afbeelding">#</a></p>
+</figcaption>
+</figure>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">department_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="k">USING</span><span class="p">(</span><span class="n">department_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>department_name</th>
+</tr>
+<tr>
+<td>King</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Ernst</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Abel</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Taylor</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>Gietz</td>
+<td>Accounting</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">department_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="k">USING</span><span class="p">(</span><span class="n">department_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>department_name</th>
+</tr>
+<tr>
+<td>King</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Ernst</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Abel</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Taylor</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>Gietz</td>
+<td>Accounting</td>
+</tr>
+</table></div></div>
+</div>
+<p>Grant heeft geen department_id en komt daarom niet voor in de uitvoer.</p>
+<section id="join-using">
+<h3>Join using<a class="headerlink" href="#join-using" title="Permalink naar deze titel">#</a></h3>
+<p>Met USING geef je specifiek aan welke kolommen gebruikt moeten worden voor de JOIN.</p>
+<p>SELECT first_name, last_name, department_id, department_name
+FROM employees JOIN departments USING(department_id);</p>
+<p>Het is mogelijk drie of meer tabellen te gebruiken om alle informatie in één uitvoer te zetten. <strong>Als je drie tabellen nodig hebt voor de juiste informatie, noem je de eerste tabel bij FROM en volgen er daarna twee JOINS.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">department_name</span><span class="p">,</span><span class="w"> </span><span class="n">city</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="k">USING</span><span class="p">(</span><span class="n">department_id</span><span class="p">)</span>
+<span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">locations</span><span class="w"> </span><span class="k">USING</span><span class="p">(</span><span class="n">location_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>department_name</th>
+<th>city</th>
+</tr>
+<tr>
+<td>King</td>
+<td>Executive</td>
+<td>Seattle</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Executive</td>
+<td>Seattle</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Executive</td>
+<td>Seattle</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>IT</td>
+<td>Southlake</td>
+</tr>
+<tr>
+<td>Ernst</td>
+<td>IT</td>
+<td>Southlake</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+<td>IT</td>
+<td>Southlake</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>Shipping</td>
+<td>South San Francisco</td>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>Shipping</td>
+<td>South San Francisco</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>Shipping</td>
+<td>South San Francisco</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>Shipping</td>
+<td>South San Francisco</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>Shipping</td>
+<td>South San Francisco</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>Sales</td>
+<td>Oxford</td>
+</tr>
+<tr>
+<td>Abel</td>
+<td>Sales</td>
+<td>Oxford</td>
+</tr>
+<tr>
+<td>Taylor</td>
+<td>Sales</td>
+<td>Oxford</td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>Administration</td>
+<td>Seattle</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>Marketing</td>
+<td>Toronto</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>Marketing</td>
+<td>Toronto</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>Accounting</td>
+<td>Seattle</td>
+</tr>
+<tr>
+<td>Gietz</td>
+<td>Accounting</td>
+<td>Seattle</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+<section id="join-on">
+<h3>Join on<a class="headerlink" href="#join-on" title="Permalink naar deze titel">#</a></h3>
+<p><strong>JOIN ON is de allerbelangrijkste manier om tabellen aan elkaar te knopen en daarom moet er heel veel geoefend worden met JOIN ON!</strong> JOIN ON werkt hetzelfde als JOIN USING maar JOIN ON kun je ook gebruiken als de kolomnamen van de twee verschillende tabellen niet exact hetzelfde zijn. Na ON benoem je dan de kolomnamen die aan elkaar gelijk moeten zijn. Eerst noem je de tabel, dan volgt er een punt en dan volgt de kolomnaam. Er zijn twee kolomnamen die je met elkaar wil vergelijken, maar ze heten anders. In de tabel employees heet de kolom salary en in de tabel job_grades heet de kolom lowest_sal. In onderstaand voorbeeld vergelijk je salary van employees met lowest_sal van job_grades. Deze personen zitten dus in de laagste salarisschaal van job_grade.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">salary</span><span class="p">,</span><span class="w"> </span><span class="n">lowest_sal</span><span class="p">,</span><span class="w"> </span><span class="n">highest_sal</span><span class="p">,</span><span class="w"> </span><span class="n">grade_level</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">job_grades</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">employees</span><span class="p">.</span><span class="n">salary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">job_grades</span><span class="p">.</span><span class="n">lowest_sal</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>first_name</th>
+<th>last_name</th>
+<th>salary</th>
+<th>lowest_sal</th>
+<th>highest_sal</th>
+<th>grade_level</th>
+</tr>
+<tr>
+<td>Bruce</td>
+<td>Ernst</td>
+<td>6000</td>
+<td>6000.0</td>
+<td>9999.0</td>
+<td>C</td>
+</tr>
+<tr>
+<td>Pat</td>
+<td>Fay</td>
+<td>6000</td>
+<td>6000.0</td>
+<td>9999.0</td>
+<td>C</td>
+</tr>
+</table></div></div>
+</div>
+<p>Met aliassen maak je deze query als volgt wat netter.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">first_name</span>
+<span class="p">,</span><span class="w">      </span><span class="n">e</span><span class="p">.</span><span class="n">last_name</span>
+<span class="p">,</span><span class="w">      </span><span class="n">e</span><span class="p">.</span><span class="n">salary</span>
+<span class="p">,</span><span class="w">      </span><span class="k">g</span><span class="p">.</span><span class="n">lowest_sal</span>
+<span class="p">,</span><span class="w">      </span><span class="k">g</span><span class="p">.</span><span class="n">highest_sal</span>
+<span class="p">,</span><span class="w">      </span><span class="k">g</span><span class="p">.</span><span class="n">grade_level</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">job_grades</span><span class="w"> </span><span class="k">g</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">salary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">lowest_sal</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>first_name</th>
+<th>last_name</th>
+<th>salary</th>
+<th>lowest_sal</th>
+<th>highest_sal</th>
+<th>grade_level</th>
+</tr>
+<tr>
+<td>Bruce</td>
+<td>Ernst</td>
+<td>6000</td>
+<td>6000.0</td>
+<td>9999.0</td>
+<td>C</td>
+</tr>
+<tr>
+<td>Pat</td>
+<td>Fay</td>
+<td>6000</td>
+<td>6000.0</td>
+<td>9999.0</td>
+<td>C</td>
+</tr>
+</table></div></div>
+</div>
+<p>Nog een voorbeeld van employees die het minimum salaris hebben van de job_id die ze hebben. De tabellen employees en jobs worden samengevoegd op kolommen die niet dezelfde kolomnaam hebben. Merk op dat salary twee decimalen heeft en dat min_salary en max_salary geen decimalen hebben. De kolom salary is van het type DECIMAL en de kolommen min_salary en max_salary zijn van het type INT.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">salary</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">.</span><span class="n">min_salary</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">.</span><span class="n">max_salary</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">jobs</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">salary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="p">.</span><span class="n">min_salary</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>first_name</th>
+<th>last_name</th>
+<th>salary</th>
+<th>min_salary</th>
+<th>max_salary</th>
+</tr>
+<tr>
+<td>Alexander</td>
+<td>Hunold</td>
+<td>9000</td>
+<td>9000</td>
+<td>15000</td>
+</tr>
+<tr>
+<td>Bruce</td>
+<td>Ernst</td>
+<td>6000</td>
+<td>6000</td>
+<td>12000</td>
+</tr>
+<tr>
+<td>Diana</td>
+<td>Lorentz</td>
+<td>4200</td>
+<td>4200</td>
+<td>9000</td>
+</tr>
+<tr>
+<td>Pat</td>
+<td>Fay</td>
+<td>6000</td>
+<td>6000</td>
+<td>12000</td>
+</tr>
+</table></div></div>
+</div>
+<p>JOIN ON werkt uiteraard ook als de kolomnamen van de verschillende tabellen wel hetzelfde zijn.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">job_title</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">jobs</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">employees</span><span class="p">.</span><span class="n">job_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jobs</span><span class="p">.</span><span class="n">job_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>job_title</th>
+</tr>
+<tr>
+<td>King</td>
+<td>President</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Administration Vice President</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Administration Vice President</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>Programmer</td>
+</tr>
+<tr>
+<td>Ernst</td>
+<td>Programmer</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+<td>Programmer</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>Stock Manager</td>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>Stock Clerk</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>Stock Clerk</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>Stock Clerk</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>Stock Clerk</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>Sales Manager</td>
+</tr>
+<tr>
+<td>Abel</td>
+<td>Sales Representative</td>
+</tr>
+<tr>
+<td>Taylor</td>
+<td>Sales Representative</td>
+</tr>
+<tr>
+<td>Grant</td>
+<td>Sales Representative</td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>Administration Assistant</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>Marketing Manager</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>Marketing Representative</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>Accounting Manager</td>
+</tr>
+<tr>
+<td>Gietz</td>
+<td>Public Accountant</td>
+</tr>
+</table></div></div>
+</div>
+<p>Het is mogelijk drie of meer tabellen te gebruiken om alle informatie in één uitvoer te zetten. Voor de leesbaarheid kun je dan de joins onder elkaar zetten.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">department_name</span><span class="p">,</span><span class="w"> </span><span class="n">city</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="p">(</span><span class="n">employees</span><span class="p">.</span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">departments</span><span class="p">.</span><span class="n">department_id</span><span class="p">)</span><span class="w"> </span>
+<span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">locations</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">departments</span><span class="p">.</span><span class="n">location_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">locations</span><span class="p">.</span><span class="n">location_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>department_name</th>
+<th>city</th>
+</tr>
+<tr>
+<td>King</td>
+<td>Executive</td>
+<td>Seattle</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Executive</td>
+<td>Seattle</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Executive</td>
+<td>Seattle</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>IT</td>
+<td>Southlake</td>
+</tr>
+<tr>
+<td>Ernst</td>
+<td>IT</td>
+<td>Southlake</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+<td>IT</td>
+<td>Southlake</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>Shipping</td>
+<td>South San Francisco</td>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>Shipping</td>
+<td>South San Francisco</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>Shipping</td>
+<td>South San Francisco</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>Shipping</td>
+<td>South San Francisco</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>Shipping</td>
+<td>South San Francisco</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>Sales</td>
+<td>Oxford</td>
+</tr>
+<tr>
+<td>Abel</td>
+<td>Sales</td>
+<td>Oxford</td>
+</tr>
+<tr>
+<td>Taylor</td>
+<td>Sales</td>
+<td>Oxford</td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>Administration</td>
+<td>Seattle</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>Marketing</td>
+<td>Toronto</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>Marketing</td>
+<td>Toronto</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>Accounting</td>
+<td>Seattle</td>
+</tr>
+<tr>
+<td>Gietz</td>
+<td>Accounting</td>
+<td>Seattle</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+</section>
+<section id="outer-join">
+<h2>Outer join<a class="headerlink" href="#outer-join" title="Permalink naar deze titel">#</a></h2>
+<p>Als je rijen uit meerdere tabellen ophaalt, kan het zijn dat sommige rijen uit de ene tabel niet gekoppeld (ge-joined) kunnen worden (door de join-voorwaarde) met een rij uit de andere tabel. Zo’n rij komt dan niet in je query resultaat. Soms wil je die rijen uit die ene tabel toch in je resultaat. Door gebruik te maken van een outer-join zal het DBMS deze rijen dan toch in je resultaat behouden, waarbij ze ge-joined worden met een (denkbeeldige) geheel lege rij (allemaal NULL’s) uit de andere tabel. In het voorbeeld van onze database heeft werknemer Grant bijvoorbeeld geen department_id (ze werkt dus niet op een bepaalde afdeling) en er is een department waar niemand werkt (Contracting).</p>
+<p><img alt="" src="../_images/outer-join-table.png" /></p>
+<figure class="align-default" id="id2">
+<img alt="../_images/outer-join-table.png" src="../_images/outer-join-table.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Tabel met NULL waarden.</span><a class="headerlink" href="#id2" title="Permallink naar deze afbeelding">#</a></p>
+</figcaption>
+</figure>
+<p>Als we de tabellen employees en departments samenvoegen met een INNER JOIN krijgen we een uitvoer van 19 records terwijl er 20 werknemers zijn. Grant staat hier namelijk niet bij.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="n">department_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="k">USING</span><span class="p">(</span><span class="n">department_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>first_name</th>
+<th>last_name</th>
+<th>department_id</th>
+<th>department_name</th>
+</tr>
+<tr>
+<td>Steven</td>
+<td>King</td>
+<td>90</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Neena</td>
+<td>Kochhar</td>
+<td>90</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Lex</td>
+<td>De Haan</td>
+<td>90</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Alexander</td>
+<td>Hunold</td>
+<td>60</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Bruce</td>
+<td>Ernst</td>
+<td>60</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Diana</td>
+<td>Lorentz</td>
+<td>60</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Kevin</td>
+<td>Mourgos</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Trenna</td>
+<td>Rajs</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Curtis</td>
+<td>Davies</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Randall</td>
+<td>Matos</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Peter</td>
+<td>Vargas</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Eleni</td>
+<td>Zlotkey</td>
+<td>80</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Ellen</td>
+<td>Abel</td>
+<td>80</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Jonathon</td>
+<td>Taylor</td>
+<td>80</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Jennifer</td>
+<td>Whalen</td>
+<td>10</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>Michael</td>
+<td>Hartstein</td>
+<td>20</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Pat</td>
+<td>Fay</td>
+<td>20</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Shelley</td>
+<td>Higgins</td>
+<td>110</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>William</td>
+<td>Gietz</td>
+<td>110</td>
+<td>Accounting</td>
+</tr>
+</table></div></div>
+</div>
+<p>Dit soort problemen kunnen we oplossen met LEFT JOIN en RIGHT JOIN.</p>
+<section id="left-join">
+<h3>Left join<a class="headerlink" href="#left-join" title="Permalink naar deze titel">#</a></h3>
+<p>Bij een LEFT JOIN worden rijen uit de linker tabel in het query resultaat behouden als ze niet met een rij uit de rechter tabel gejoined kunnen worden. In plaats van LEFT JOIN wordt ook wel LEFT OUTER JOIN gebruikt. In de eerste tabel komen zwart, blauw en wit voor en in de tweede tabel blauw, wit en oranje. Met een LEFT JOIN worden alle rijen getoond van de linker tabel, dus in dit geval zwart, blauw en wit. Maar van de rechter tabel wordt alleen maar blauw en wit getoond en oranje niet.</p>
+<p><img alt="" src="../_images/left-join.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">department_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span>
+<span class="w">  </span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">employees</span><span class="p">.</span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">departments</span><span class="p">.</span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>department_name</th>
+</tr>
+<tr>
+<td>King</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Ernst</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Abel</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Taylor</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Grant</td>
+<td></td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>Gietz</td>
+<td>Accounting</td>
+</tr>
+</table></div></div>
+</div>
+<p>Je ziet dat Grant nu wel in het linker rijtje voorkomt, ondanks het feit dat ze geen department_name heeft. En dat komt dus door de toevoeging van LEFT bij de JOIN. Bij een LEFT JOIN is het linkerrijtje het langst.</p>
+</section>
+<section id="right-join">
+<h3>Right join<a class="headerlink" href="#right-join" title="Permalink naar deze titel">#</a></h3>
+<p>Bij een RIGHT JOIN worden rijen uit de rechter tabel in het query resultaat behouden als ze niet met een rij uit de linker tabel gejoined kunnen worden. In plaats van RIGHT JOIN wordt ook wel RIGHT OUTER JOIN gebruikt. IN de linker tabel komen zwart, blauw en wit voor en in de rechter tabel blauw, wit en oranje. Zwart wordt dus niet getoond, want die staat alleen maar aan de linkerkant. Oranje wordt wel getoond.</p>
+<p><img alt="" src="../_images/right-join.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">department_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span>
+<span class="w">  </span><span class="k">RIGHT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">employees</span><span class="p">.</span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">departments</span><span class="p">.</span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>department_name</th>
+</tr>
+<tr>
+<td>King</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Ernst</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Abel</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Taylor</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>Gietz</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td></td>
+<td>Contracting</td>
+</tr>
+</table></div></div>
+</div>
+<p>Je ziet dat Contracting nu wel in het rechterrijtje voorkomt, ondanks het feit dat er niemand op die afdeling werkt. En dat komt dus door de toevoeging van RIGHT bij de JOIN. Bij een RIGHT JOIN is het rechterrijtje het langst.</p>
+<div class="admonition warning">
+<p class="admonition-title">Waarschuwing</p>
+<p>In de praktijk worden RIGHT JOINS niet gebruikt. Het is niet erg nuttig een overzicht te laten beginnen met een kolom met NULL. Bovendien kun je een OUTER JOIN namaken met een LEFT JOIN door de kolomnamen om te draaien.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">department_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span>
+<span class="w">  </span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">departments</span><span class="p">.</span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">employees</span><span class="p">.</span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>department_name</th>
+<th>last_name</th>
+</tr>
+<tr>
+<td>Administration</td>
+<td>Whalen</td>
+</tr>
+<tr>
+<td>Marketing</td>
+<td>Fay</td>
+</tr>
+<tr>
+<td>Marketing</td>
+<td>Hartstein</td>
+</tr>
+<tr>
+<td>Shipping</td>
+<td>Davies</td>
+</tr>
+<tr>
+<td>Shipping</td>
+<td>Matos</td>
+</tr>
+<tr>
+<td>Shipping</td>
+<td>Mourgos</td>
+</tr>
+<tr>
+<td>Shipping</td>
+<td>Rajs</td>
+</tr>
+<tr>
+<td>Shipping</td>
+<td>Vargas</td>
+</tr>
+<tr>
+<td>IT</td>
+<td>Ernst</td>
+</tr>
+<tr>
+<td>IT</td>
+<td>Hunold</td>
+</tr>
+<tr>
+<td>IT</td>
+<td>Lorentz</td>
+</tr>
+<tr>
+<td>Sales</td>
+<td>Abel</td>
+</tr>
+<tr>
+<td>Sales</td>
+<td>Taylor</td>
+</tr>
+<tr>
+<td>Sales</td>
+<td>Zlotkey</td>
+</tr>
+<tr>
+<td>Executive</td>
+<td>De Haan</td>
+</tr>
+<tr>
+<td>Executive</td>
+<td>King</td>
+</tr>
+<tr>
+<td>Executive</td>
+<td>Kochhar</td>
+</tr>
+<tr>
+<td>Accounting</td>
+<td>Gietz</td>
+</tr>
+<tr>
+<td>Accounting</td>
+<td>Higgins</td>
+</tr>
+<tr>
+<td>Contracting</td>
+<td></td>
+</tr>
+</table></div></div>
+</div>
+</section>
+<section id="full-join">
+<h3>Full join<a class="headerlink" href="#full-join" title="Permalink naar deze titel">#</a></h3>
+<p>Je kunt een LEFT JOIN en een RIGHT JOIN combineren tot een FULL JOIN. Je krijgt dan alle rijen van een kolom uit de ene tabel gecombineerd met alle rijen van een kolom uit een andere tabel, ongeacht of er een match is of niet. In plaats van FULL JOIN wordt ook wel FULL OUTER JOIN gebruikt.</p>
+<p><img alt="" src="../_images/full-outer-join.png" /></p>
+<p><img alt="" src="../_images/outer-join-table.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">employees</span><span class="p">.</span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">departments</span><span class="p">.</span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="n">departments</span><span class="p">.</span><span class="n">department_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w"> </span><span class="k">FULL</span><span class="w"> </span><span class="k">OUTER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">employees</span><span class="p">.</span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">departments</span><span class="p">.</span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>department_id</th>
+<th>department_name</th>
+</tr>
+<tr>
+<td>King</td>
+<td>90</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>90</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>90</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>60</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Ernst</td>
+<td>60</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+<td>60</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>50</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>80</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Abel</td>
+<td>80</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Taylor</td>
+<td>80</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Grant</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>10</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>20</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>20</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>110</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>Gietz</td>
+<td>110</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td></td>
+<td>190</td>
+<td>Contracting</td>
+</tr>
+</table></div></div>
+</div>
+<p><strong>De FULL OUTER JOIN is ANSI-standaard maar wordt niet ondersteund in MySQL.</strong></p>
+</section>
+<section id="self-join">
+<h3>Self join<a class="headerlink" href="#self-join" title="Permalink naar deze titel">#</a></h3>
+<p>Het is mogelijk een tabel met zichzelf te joinen door twee aliassen te gebruiken voor dezelfde tabel. De database denkt dan dat er twee tabellen zijn. In de tabel employees staat bij manager_id wie de manager is van de employee. Dat nummer bij manager_id verwijst naar het employee_id.</p>
+<ul class="simple">
+<li><p>Je ziet dat King geen manager_id heeft, hij is de hoogste baas.</p></li>
+<li><p>Kochar heeft als manager_id 100 en dat is dus King.</p></li>
+<li><p>Hunold heeft als manager_id 102 en dat is dus De Haan.</p></li>
+<li><p>et cetera</p></li>
+</ul>
+<p><img alt="" src="../_images/self-join-table.png" /></p>
+<p>Als je een alias gaat kiezen, moet je een duidelijke naam nemen. In dit geval hebben we worker voor de werknemers gekozen en manager voor de managers. We kunnen nu een overzicht maken met de werknemers en hun managers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">worker</span><span class="p">.</span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">worker</span><span class="p">.</span><span class="n">manager_id</span><span class="p">,</span><span class="w"> </span><span class="n">manager</span><span class="p">.</span><span class="n">last_name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">manager_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="n">worker</span><span class="w"> </span>
+<span class="w">  </span><span class="k">JOIN</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="n">manager</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">worker</span><span class="p">.</span><span class="n">manager_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">manager</span><span class="p">.</span><span class="n">employee_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>manager_id</th>
+<th>manager_name</th>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>100</td>
+<td>King</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>100</td>
+<td>King</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>102</td>
+<td>De Haan</td>
+</tr>
+<tr>
+<td>Ernst</td>
+<td>103</td>
+<td>Hunold</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+<td>103</td>
+<td>Hunold</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>100</td>
+<td>King</td>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>124</td>
+<td>Mourgos</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>124</td>
+<td>Mourgos</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>124</td>
+<td>Mourgos</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>124</td>
+<td>Mourgos</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>100</td>
+<td>King</td>
+</tr>
+<tr>
+<td>Abel</td>
+<td>149</td>
+<td>Zlotkey</td>
+</tr>
+<tr>
+<td>Taylor</td>
+<td>149</td>
+<td>Zlotkey</td>
+</tr>
+<tr>
+<td>Grant</td>
+<td>149</td>
+<td>Zlotkey</td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>101</td>
+<td>Kochhar</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>100</td>
+<td>King</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>201</td>
+<td>Hartstein</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>101</td>
+<td>Kochhar</td>
+</tr>
+<tr>
+<td>Gietz</td>
+<td>205</td>
+<td>Higgins</td>
+</tr>
+</table></div></div>
+</div>
+<p>En als je daar KING bij wil hebben, maak je er een LEFT JOIN van.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">worker</span><span class="p">.</span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">worker</span><span class="p">.</span><span class="n">manager_id</span><span class="p">,</span><span class="w"> </span><span class="n">manager</span><span class="p">.</span><span class="n">last_name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">manager_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="n">worker</span><span class="w"> </span>
+<span class="w">  </span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="n">manager</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">worker</span><span class="p">.</span><span class="n">manager_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">manager</span><span class="p">.</span><span class="n">employee_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>manager_id</th>
+<th>manager_name</th>
+</tr>
+<tr>
+<td>King</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>100</td>
+<td>King</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>100</td>
+<td>King</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>102</td>
+<td>De Haan</td>
+</tr>
+<tr>
+<td>Ernst</td>
+<td>103</td>
+<td>Hunold</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+<td>103</td>
+<td>Hunold</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>100</td>
+<td>King</td>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>124</td>
+<td>Mourgos</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>124</td>
+<td>Mourgos</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>124</td>
+<td>Mourgos</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>124</td>
+<td>Mourgos</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>100</td>
+<td>King</td>
+</tr>
+<tr>
+<td>Abel</td>
+<td>149</td>
+<td>Zlotkey</td>
+</tr>
+<tr>
+<td>Taylor</td>
+<td>149</td>
+<td>Zlotkey</td>
+</tr>
+<tr>
+<td>Grant</td>
+<td>149</td>
+<td>Zlotkey</td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>101</td>
+<td>Kochhar</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>100</td>
+<td>King</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>201</td>
+<td>Hartstein</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>101</td>
+<td>Kochhar</td>
+</tr>
+<tr>
+<td>Gietz</td>
+<td>205</td>
+<td>Higgins</td>
+</tr>
+</table></div></div>
+</div>
+<div class="admonition-opmerking admonition">
+<p class="admonition-title">Opmerking</p>
+<p>De SELF JOIN komt sporadisch voor en is dus niet erg belangrijk. In de database die wij gebruiken is er slechts één SELF-JOIN te maken en die staat hierboven uitgelegd.</p>
+</div>
+</section>
+</section>
+<section id="equi-join">
+<h2>Equi join<a class="headerlink" href="#equi-join" title="Permalink naar deze titel">#</a></h2>
+<p>Een EQUIJOIN is een term voor een categorie join waarbij het is-gelijk-teken gebruikt wordt om twee of meerdere tabellen aan elkaar te knopen. Joins die hiertoe behoren zijn bijvoorbeeld de NATURAL JOIN, JOIN USING en JOIN ON met het = teken. Het is ook mogelijk twee tabellen samen te voegen met een vergelijking in de WHERE. Deze joins horen niet tot de ANSI-standaard maar ze worden ondersteund in elk Database Management System.</p>
+<p>Voorbeeld van een EQUI JOIN met de vergelijking in de WHERE. Alle tabellen die je gebruikt komen op de WHERE regel.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">employees</span><span class="p">.</span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">departments</span><span class="p">.</span><span class="n">department_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">,</span><span class="w"> </span><span class="n">departments</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">employees</span><span class="p">.</span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">departments</span><span class="p">.</span><span class="n">department_id</span><span class="p">;</span><span class="w"> </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>department_name</th>
+</tr>
+<tr>
+<td>King</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Ernst</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Abel</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Taylor</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>Gietz</td>
+<td>Accounting</td>
+</tr>
+</table></div></div>
+</div>
+<p>Voorbeelden van een EQUI JOIN met de vergelijking in de JOIN ON. De uitvoer is in beide gevallen exact hetzelfde.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">employees</span><span class="p">.</span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">departments</span><span class="p">.</span><span class="n">department_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">employees</span><span class="p">.</span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">departments</span><span class="p">.</span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>department_name</th>
+</tr>
+<tr>
+<td>King</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Ernst</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Abel</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Taylor</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>Gietz</td>
+<td>Accounting</td>
+</tr>
+</table></div></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Maar met een vergelijking in de WHERE kun je dus geen rijen tonen waarvan een van de kolommen NULL is. Met een LEFT JOIN ON kan dat wel en daarom is het verstandig jezelf aan te leren dat je altijd LEFT JOIN ON gebruikt.</p>
+</div>
+<p>Gebruik onderstaande query in plaats van de query met de vergelijking in de WHERE hierboven. Grant heeft geen department_name maar hij komt toch op het overzicht.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">department_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span>
+<span class="w">  </span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">employees</span><span class="p">.</span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">departments</span><span class="p">.</span><span class="n">department_id</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<tr>
+<th>last_name</th>
+<th>department_name</th>
+</tr>
+<tr>
+<td>King</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Kochhar</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>De Haan</td>
+<td>Executive</td>
+</tr>
+<tr>
+<td>Hunold</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Ernst</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Lorentz</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>Mourgos</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Rajs</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Davies</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Matos</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Vargas</td>
+<td>Shipping</td>
+</tr>
+<tr>
+<td>Zlotkey</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Abel</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Taylor</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Grant</td>
+<td></td>
+</tr>
+<tr>
+<td>Whalen</td>
+<td>Administration</td>
+</tr>
+<tr>
+<td>Hartstein</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Fay</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>Higgins</td>
+<td>Accounting</td>
+</tr>
+<tr>
+<td>Gietz</td>
+<td>Accounting</td>
+</tr>
+</table></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "xsqlite"
+        },
+        kernelOptions: {
+            name: "xsqlite",
+            path: "./sectie6"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'xsqlite'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../sectie5/opdrachten5.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">vorige</p>
+        <p class="prev-next-title">Opdrachten 5</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="vragen6.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">volgende</p>
+        <p class="prev-next-title">Vragen bij sectie 6</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Inhoud
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-join">Cross join</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#natural-join">Natural join</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inner-join">Inner join</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#join-using">Join using</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#join-on">Join on</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outer-join">Outer join</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#left-join">Left join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#right-join">Right join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-join">Full join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#self-join">Self join</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equi-join">Equi join</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Door Frans Peeters
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022 SLO (beschikbaar onder creative commons licentie CC-BY).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

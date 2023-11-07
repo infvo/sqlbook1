@@ -1,0 +1,819 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="nl" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Data types in MySQL &#8212; Inleiding SQL</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/assessment.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/assessment.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'sectie5/datatypes-mysql';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Zoeken" href="../search.html" />
+    <link rel="next" title="Nesten" href="nesten.html" />
+    <link rel="prev" title="Data types in SQLite" href="datatypes-sqlite.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="nl"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welkom bij de inleidende cursus SQL
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Inleiding</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../inleiding.html">Inleiding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rdbms.html">RDBMS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 1</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sectie1/select.html">SELECT</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/as.html">AS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/limit.html">LIMIT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/sql-null.html">NULL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie1/reken-operatoren.html">Rekenkundige operatoren</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie1/vragen1.html">Vragen 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie1/opdrachten1.html">Opdrachten 1</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 2</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/describe.html">DESCRIBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/concat.html">CONCAT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/distinct.html">DISTINCT</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sectie2/where.html">WHERE</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/between-and.html">BETWEEN…AND</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/in.html">IN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/like.html">LIKE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/is-null.html">IS NULL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sectie2/is-not-null.html">IS NOT NULL</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/vragen2.html">Vragen 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie2/opdrachten2.html">Opdrachten 2</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 3</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/logische-operatoren.html">Logische operatoren</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/order-by.html">ORDER BY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/vragen3.html">Vragen Sectie 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie3/opdrachten3.html">Opdrachten sectie 3</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 4</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/tekstfuncties.html">Tekstfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/rekenfuncties.html">Rekenfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/datumfuncties-sqlite.html">Datumfuncties in SQLite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/datumfuncties-mysql.html">Datumfuncties in MySQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/groepsfuncties.html">Groepsfuncties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/vragen4.html">Vragen Sectie 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie4/opdrachten4.html">Opdrachten sectie 4</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 5</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="datatypes-sqlite.html">Data types in SQLite</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data types in MySQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nesten.html">Nesten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="null-functies.html">NULL functies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="case.html">Case</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vragen5.html">Vragen sectie 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opdrachten5.html">Opdrachten 5</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 6</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie6/joins.html">Joins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie6/vragen6.html">Vragen bij sectie 6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie6/opdrachten6.html">Opdrachten 6</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 7</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie7/subquery.html">Subquery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie7/vragen7.html">Vragen Sectie 7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie7/opdrachten7.html">Opdrachten sectie 7</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sectie 8</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sectie8/groupby.html">GROUP BY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie8/vragen8.html">Vragen sectie 8</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sectie8/opdrachten8.html">Opdrachten sectie 8</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Over dit materiaal</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../sqlite-versie.html">SQLite versie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sqlite-vs-mysql.html">Verschillen SQLite en MySQL</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/infvo/sqlbook1" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Bronopslagplaats"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/infvo/sqlbook1/issues/new?title=Issue%20on%20page%20%2Fsectie5/datatypes-mysql.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open een probleem"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download deze pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/sectie5/datatypes-mysql.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download het bronbestand"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Afdrukken naar pdf"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Volledig scherm"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Zoeken" aria-label="Zoeken" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Data types in MySQL</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Inhoud </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numeriek">Numeriek</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integer">INTEGER</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unsigned">UNSIGNED</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alfanumeriek">Alfanumeriek</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#char">CHAR</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#varchar">VARCHAR</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tinytext">TINYTEXT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#text">TEXT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enum">ENUM</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datums">Datums</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#date">DATE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datetime">DATETIME</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timestamp">TIMESTAMP</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#year">YEAR</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conversie">Conversie</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cast">Cast</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert">Convert</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="data-types-in-mysql">
+<span id="mysql-datatypes"></span><h1>Data types in MySQL<a class="headerlink" href="#data-types-in-mysql" title="Permalink naar deze titel">#</a></h1>
+<div class="admonition-mysql-voorbeelden admonition">
+<p class="admonition-title">MySQL voorbeelden</p>
+<p>Dit gedeelte gaat over data types in MySQL.
+Deze verschillen van de (eenvoudiger) data types in SQLite.
+De MySQL voorbeelden in dit hoofdstuk kun je niet allemaal uitvoeren in SQLite.
+Voor de volledigheid hebben we dit gedeelte uit het originele materiaal overgenomen.</p>
+</div>
+<p>In het algemeen kun je zeggen dat er drie soorten kolomgegevens zijn:</p>
+<ul class="simple">
+<li><p>getallen (numeriek)</p></li>
+<li><p>tekst (alfanumeriek)</p></li>
+<li><p>datums</p></li>
+</ul>
+<p>Datatypes kunnen verschillende namen hebben in verschillende databases maar in principe werkt het overal hetzelfde. Controleer altijd de documentatie voor de details van de datatypen want zelfs bij dezelfde namen kunnen de details verschillend zijn.</p>
+<p>Een overzicht van alle datatypes vind je hier:</p>
+<p><a class="reference external" href="https://www.w3schools.com/sql/sql_datatypes.asp">https://www.w3schools.com/sql/sql_datatypes.asp</a></p>
+<section id="numeriek">
+<h2>Numeriek<a class="headerlink" href="#numeriek" title="Permalink naar deze titel">#</a></h2>
+<section id="integer">
+<h3>INTEGER<a class="headerlink" href="#integer" title="Permalink naar deze titel">#</a></h3>
+<p>Het datatype INTEGER is een eindige verzameling van gehele getallen. Ze kunnen zowel positief als negatief zijn en 0 hoort er ook bij. Als afkorting voor INTEGER wordt INT gebruikt. Een aantal datatypen is gebaseerd op integers. Het is belangrijk het datatype zo efficiënt mogelijk te kiezen zodat de opslag in de database zo klein mogelijk blijft. Zo is het bijvoorbeeld niet nodig de lidnummers van een vereniging het datatype INT of zelfs MEDIUMINT te geven aangezien een vereniging niet snel zoveel leden zal hebben als het maximum aantal dat je hiermee kunt maken.</p>
+</section>
+<section id="unsigned">
+<h3>UNSIGNED<a class="headerlink" href="#unsigned" title="Permalink naar deze titel">#</a></h3>
+<p>Met UNSIGNED kun je bepalen dat het datatype met 0 moet beginnen. Met een TINYINT heb je bijvoorbeeld 256 mogelijkheden. Dat is één Byte van -128 tot en met 127. Het getal 0 moet je ook meerekenen, vandaar het maximum van 127. Als je bepaalt dat het datatype UNSIGNED is, begin je met 0 en dan heb je de mogelijkheden van 0 tot en met 255. Dat zijn ook weer in totaal 256 mogelijkheden (één Byte).</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-left head"><p>Type</p></th>
+<th class="text-left head"><p>Bytes</p></th>
+<th class="text-left head"><p>Minimum</p></th>
+<th class="text-left head"><p>Maximum</p></th>
+<th class="text-left head"><p>Maximum Unsigned</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>TINYINT</p></td>
+<td class="text-left"><p>1</p></td>
+<td class="text-left"><p>-128</p></td>
+<td class="text-left"><p>127</p></td>
+<td class="text-left"><p>255</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>SMALLINT</p></td>
+<td class="text-left"><p>2</p></td>
+<td class="text-left"><p>-32768</p></td>
+<td class="text-left"><p>32767</p></td>
+<td class="text-left"><p>65535</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>MEDIUMINT</p></td>
+<td class="text-left"><p>3</p></td>
+<td class="text-left"><p>-8388608</p></td>
+<td class="text-left"><p>8388607</p></td>
+<td class="text-left"><p>16777215</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>INT</p></td>
+<td class="text-left"><p>4</p></td>
+<td class="text-left"><p>-2147483648</p></td>
+<td class="text-left"><p>2147483647</p></td>
+<td class="text-left"><p>4294967295</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>BIGINT</p></td>
+<td class="text-left"><p>8</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(-2^{63}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(2^{63} - 1\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(2^{64} -1\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>FLOAT</p>
+<p>Een klein getal met een aantal decimalen.</p>
+<p>DOUBLE</p>
+<p>Een groot getal met een aantal decimalen.</p>
+<p>DECIMAL</p>
+<p>Een DOUBLE opgeslagen als een STRING.</p>
+<p>Bij een FLOAT, DOUBLE en DECIMAL kun je het maximum aantal cijfers vastleggen en ook het aantal cijfers achter de komma. Let op dat in de standaard notatie een punt wordt gebruikt waar wij een komma gebruiken.</p>
+</section>
+</section>
+<section id="alfanumeriek">
+<h2>Alfanumeriek<a class="headerlink" href="#alfanumeriek" title="Permalink naar deze titel">#</a></h2>
+<p>De belangrijkste alfanumerieke datatypen zijn de volgende.</p>
+<section id="char">
+<h3>CHAR<a class="headerlink" href="#char" title="Permalink naar deze titel">#</a></h3>
+<p>Wordt gebruikt voor een veld waar een STRING in komt met een vaste lengte, bijvoorbeeld een postcode. Je kunt er maximaal 255 letters, cijfers en speciale karakters in stoppen.</p>
+</section>
+<section id="varchar">
+<h3>VARCHAR<a class="headerlink" href="#varchar" title="Permalink naar deze titel">#</a></h3>
+<p>Wordt gebruikt voor een veld waar een STRING in komt met een variabele lengte, bijvoorbeeld een adres of e-mailadres. Je kunt er maximaal 255 letters, cijfers en speciale karakters in stoppen.</p>
+</section>
+<section id="tinytext">
+<h3>TINYTEXT<a class="headerlink" href="#tinytext" title="Permalink naar deze titel">#</a></h3>
+<p>Kan een STRING bevatten met een maximale lengte van 255 karakters.</p>
+</section>
+<section id="text">
+<h3>TEXT<a class="headerlink" href="#text" title="Permalink naar deze titel">#</a></h3>
+<p>Kan een STRING bevatten met een maximale lengte van 65,535 karakters.</p>
+</section>
+<section id="enum">
+<h3>ENUM<a class="headerlink" href="#enum" title="Permalink naar deze titel">#</a></h3>
+<p>Met ENUM kun je een keuzelijst maken.</p>
+</section>
+</section>
+<section id="datums">
+<h2>Datums<a class="headerlink" href="#datums" title="Permalink naar deze titel">#</a></h2>
+<section id="date">
+<h3>DATE<a class="headerlink" href="#date" title="Permalink naar deze titel">#</a></h3>
+<p>Het datatype DATE wordt gebruikt voor de dag van de maand, de maand en het jaar.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">hire_date</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0110.png" /></p>
+</section>
+<section id="datetime">
+<h3>DATETIME<a class="headerlink" href="#datetime" title="Permalink naar deze titel">#</a></h3>
+<p>Het datatype DATETIME is een combinatie van datum en tijd van het formaat YYYY-MM-DD HH:MI:SS.</p>
+</section>
+<section id="timestamp">
+<h3>TIMESTAMP<a class="headerlink" href="#timestamp" title="Permalink naar deze titel">#</a></h3>
+<p>Het TIMESTAMP datatype is een uitbreiding van het DATETIME type waarbij waarden in milliseconden kunnen worden opgeslagen en weergegeven. De invoer wordt opgeslagen als een 32-bit getal waarbij gestart is met 0 op 1 januari 1970.</p>
+</section>
+<section id="year">
+<h3>YEAR<a class="headerlink" href="#year" title="Permalink naar deze titel">#</a></h3>
+<p>Het datatype YEAR kun je opslaan als YY (twee cijfers)  of als YYYY (vier cijfers).</p>
+</section>
+</section>
+<section id="conversie">
+<h2>Conversie<a class="headerlink" href="#conversie" title="Permalink naar deze titel">#</a></h2>
+<p>Soms vindt er impliciete conversie van een datatype plaats. Dat houdt in dat het systeem automatisch een datatype omzet. Bij de tabel employees is de kolom bonus bijvoorbeeld van het type VARCHAR (tekst).</p>
+<p><img alt="" src="../_images/clip0118.png" /></p>
+<p>Stel dat je daar toch mee wil rekenen en er 100 bij op wil tellen. Dan wordt automatisch het veld bonus omgezet in een numeriek datatype.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">bonus</span><span class="p">,</span><span class="w"> </span><span class="n">bonus</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">100</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">bonus</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0117.png" /></p>
+<p>Ook de functies MIN, MAX, AVG, en SUM werken.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="k">MIN</span><span class="p">(</span><span class="n">bonus</span><span class="p">),</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">bonus</span><span class="p">),</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">bonus</span><span class="p">),</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">bonus</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0290.png" /></p>
+<p>Het is echter niet verstandig om het op impliciete datatype conversie te laten aankomen. Gebruik zo nodig conversiefuncties zoals CAST of CONVERT die hierna behandeld worden, zodat er expliciete conversie plaatsvindt. Het maakt SQL beter leesbaar en robuuster. Maar nog beter is om bij het maken van de database voor numerieke informatie het juiste type te kiezen (bijvoorbeeld INT of DECIMAL) en géén VARCHAR.</p>
+<p>Het gaat bijvoorbeeld fout als je CONCAT gebruikt in combinatie met AVG voor informatie van het type VARCHAR. De tweede kolom van onderstaande informatie is niet de uitvoer die je graag zou hebben. In de derde kolom is ROUND ervoor gezet en wordt het weer hersteld.</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">bonus</span><span class="p">),</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">bonus</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39; dollar&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">bonus</span><span class="p">)),</span><span class="w"> </span><span class="s1">&#39; dollar&#39;</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0291.png" /></p>
+</section>
+<section id="cast">
+<h2>Cast<a class="headerlink" href="#cast" title="Permalink naar deze titel">#</a></h2>
+<p>Om datatypes om te zetten van het ene type naar het andere type kun je CAST gebruiken. De syntax is dan:</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">CAST</span><span class="p">(</span><span class="n">expression</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">data_type</span><span class="p">(</span><span class="k">length</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Waarbij length optioneel is en die hoef je dus niet per se toe te voegen.</p>
+<p>Zet een datum om naar tekst en toon enkel het jaartal (de eerste vier karakters):</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="k">CAST</span><span class="p">(</span><span class="n">hire_date</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0111.png" /></p>
+<p>Zet een datum van het formaat DATE om naar het formaat DATETIME:</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="k">CAST</span><span class="p">(</span><span class="n">hire_date</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DATETIME</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0315.png" /></p>
+<p>Zet een VARCHAR om naar een INTEGER:</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="k">CAST</span><span class="p">(</span><span class="n">bonus</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">bonus</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0311.png" /></p>
+</section>
+<section id="convert">
+<h2>Convert<a class="headerlink" href="#convert" title="Permalink naar deze titel">#</a></h2>
+<p>Met CONVERT kun je precies hetzelfde doen als met CAST: het datatype omzetten van het ene type naar het andere. De syntaxis is:</p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">CONVERT</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="k">type</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="k">CONVERT</span><span class="p">(</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="nb">char</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0114.png" /></p>
+<div class="highlight-SQL notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="k">CONVERT</span><span class="p">(</span><span class="n">hire_date</span><span class="p">,</span><span class="w"> </span><span class="n">datetime</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">last_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;King&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/clip0115.png" /></p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "xsqlite"
+        },
+        kernelOptions: {
+            name: "xsqlite",
+            path: "./sectie5"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'xsqlite'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="datatypes-sqlite.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">vorige</p>
+        <p class="prev-next-title">Data types in SQLite</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nesten.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">volgende</p>
+        <p class="prev-next-title">Nesten</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Inhoud
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numeriek">Numeriek</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integer">INTEGER</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unsigned">UNSIGNED</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alfanumeriek">Alfanumeriek</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#char">CHAR</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#varchar">VARCHAR</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tinytext">TINYTEXT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#text">TEXT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enum">ENUM</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datums">Datums</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#date">DATE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datetime">DATETIME</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timestamp">TIMESTAMP</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#year">YEAR</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conversie">Conversie</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cast">Cast</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert">Convert</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Door Frans Peeters
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022 SLO (beschikbaar onder creative commons licentie CC-BY).
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
